@@ -157,14 +157,14 @@ def get_is_summit(row):
 
 def get_coords(row):
     lat = row['latitude']
-    m = re.match(r'^N (\d+\.\d+)$', lat)
+    m = re.match(r'^(?:N )?(-?\d+\.\d+)$', lat)
     if not m:
         raise ValueError('Invalid latitude "%s" for pass id=%s' % (lat, row['id']))
     lat = float(m.group(1))
     if not (-90 < lat < 90):
         raise ValueError('Invalid latitude "%s" for pass id=%s' % (lat, row['id']))
     lon = row['longitude']
-    m = re.match(r'^E (\d+\.\d+)$', lon)
+    m = re.match(r'^(?:E )?(-?\d+\.\d+)$', lon)
     if not m:
         raise ValueError('Invalid longitude "%s" for pass id=%s' % (lon, row['id']))
     lon = float(m.group(1))
