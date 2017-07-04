@@ -119,6 +119,7 @@ def sanitize_text(s, row):
     s2 = s2.replace('\r', ' ')\
         .replace('\n', ' ')\
         .replace('&amp;', '&')\
+        .replace(r"\\'", "'")\
         .replace(r"\'", "'")\
         .replace(u'\xad', '')\
         .replace('<', '&lt;')\
