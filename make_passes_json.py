@@ -192,11 +192,11 @@ def row_to_item(row):
         'slopes': sanitize_text(row['type_sum'], row),
         'connects': sanitize_text(row['connect'], row),
         'is_summit': get_is_summit(row),
-        'notconfirmed': not check_boolean(row['is_confirmed'], row) or None,
-        'coords_notconfirmed': not check_boolean(row['coords_confirm'], row) or None,
+        # 'notconfirmed': not check_boolean(row['is_confirmed'], row) or None,
+        # 'coords_notconfirmed': not check_boolean(row['coords_confirm'], row) or None,
         'latlon': get_coords(row),
         'comments': comments2 or None,
-        'comment_class': sanitize_text(row['comment_class'], row),
+        # 'comment_class': sanitize_text(row['comment_class'], row),
         'author': sanitize_text(row['user_name'], row)
     }
     for k, v in item.items():
