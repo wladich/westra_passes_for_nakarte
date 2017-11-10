@@ -99,6 +99,7 @@ def norm_grade(row):
 text_chars = re.compile(u'[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%' +
                         u'\u0400-\u04ff' +
                         u'\u2116' +
+                        u'\u2014' +
                         u'#_' +
                         u'\u2018\u2019\u2032' +
                         u'=' +
@@ -226,3 +227,4 @@ def make_json(dump_filename, json_filename):
 dump_filename = sys.argv[1]
 json_filename = sys.argv[2]
 make_json(dump_filename, json_filename)
+
