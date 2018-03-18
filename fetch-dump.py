@@ -38,7 +38,7 @@ pass_keys = [u'type_sum',
 
 
 def fetch_json(url):
-    res = urllib2.urlopen(url)
+    res = urllib2.urlopen(url, timeout=10)
     return json.load(res)
 
 
