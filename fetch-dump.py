@@ -34,7 +34,9 @@ pass_keys = [u'type_sum',
              u'title_class',
              u'cat_spr',
              u'type_win',
-             u'firstAscent']
+             u'firstAscent',
+             u'reportStat',
+             ]
 
 
 def fetch_json(url):
@@ -82,6 +84,8 @@ def process_region(region, parent_id, regions, passes_writer):
             obj['latitude'] = ''
             obj['longitude'] = ''
             obj['coords_confirm'] = '0'
+        report_stat = obj.pop('reportStat', {})
+        obj['reportStat'] = json.dumps(report_stat)
         extraneous_keys = set(obj.keys()) - set(pass_keys)
         if extraneous_keys:
             raise ValueError('Unexpected keys in pass object: %s' % extraneous_keys)
