@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="http://nakarte.me" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1">
+	<wpt lat="49.994512" lon="87.374809">
+		<name>Алтай</name>
+	</wpt>
+	<wpt lat="46.233347" lon="9.118717">
+		<name>Альпы</name>
+	</wpt>
+	<wpt lat="31.090967" lon="-6.205924">
+		<name>Высокий Атлас</name>
+	</wpt>
+	<wpt lat="29.954934" lon="81.776738">
+		<name>Гималаи</name>
+	</wpt>
+	<wpt lat="44.851902" lon="79.753773">
+		<name>Джунгарский Алатау</name>
+	</wpt>
+	<wpt lat="43.117478" lon="42.713688">
+		<name>Кавказ</name>
+	</wpt>
+	<wpt lat="54.145542" lon="159.745340">
+		<name>Камчатка</name>
+	</wpt>
+	<wpt lat="35.204704" lon="76.974532">
+		<name>Каракорум</name>
+	</wpt>
+	<wpt lat="67.769791" lon="34.244387">
+		<name>Кольский полуостров</name>
+	</wpt>
+	<wpt lat="38.866434" lon="71.210358">
+		<name>Памир и Памиро-Алай</name>
+	</wpt>
+	<wpt lat="69.289038" lon="92.440151">
+		<name>плато Путорана</name>
+	</wpt>
+	<wpt lat="40.715249" lon="40.960574">
+		<name>Понтийские горы</name>
+	</wpt>
+	<wpt lat="55.634190" lon="111.604621">
+		<name>Прибайкалье и Забайкалье</name>
+	</wpt>
+	<wpt lat="52.444464" lon="98.059357">
+		<name>Саяны</name>
+	</wpt>
+	<wpt lat="67.414881" lon="17.753907">
+		<name>Скандинавия</name>
+	</wpt>
+	<wpt lat="37.776663" lon="35.155630">
+		<name>Тавр</name>
+	</wpt>
+	<wpt lat="41.988676" lon="76.022241">
+		<name>Тянь-Шань</name>
+	</wpt>
+	<wpt lat="64.614462" lon="59.831547">
+		<name>Урал</name>
+	</wpt>
+	<wpt lat="65.002503" lon="145.678033">
+		<name>Хребет Черского</name>
+	</wpt>
+	<wpt lat="78.830471" lon="16.136170">
+		<name>Шпицберген</name>
+	</wpt>
+	<wpt lat="62.279416" lon="141.352853">
+		<name>Сунтар-Хаята</name>
+	</wpt>
+</gpx>

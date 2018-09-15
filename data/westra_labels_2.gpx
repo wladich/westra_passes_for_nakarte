@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="http://nakarte.me" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1">
+	<wpt lat="49.826863" lon="86.433247">
+		<name>Катунский хребет</name>
+	</wpt>
+	<wpt lat="50.057169" lon="87.542222">
+		<name>Северо-Чуйский хребет</name>
+	</wpt>
+	<wpt lat="49.134896" lon="87.842458">
+		<name>Хребет Монгольский Алтай</name>
+	</wpt>
+	<wpt lat="49.691337" lon="89.232379">
+		<name>Хребет Чихачева (Сайлюгем)</name>
+	</wpt>
+	<wpt lat="49.155839" lon="87.528854">
+		<name>Хребет Южный Алтай</name>
+	</wpt>
+	<wpt lat="49.818602" lon="87.719870">
+		<name>Южно-Чуйский хребет</name>
+	</wpt>
+	<wpt lat="46.103700" lon="7.915650">
+		<name>Альпы</name>
+	</wpt>
+	<wpt lat="31.090967" lon="-6.205924">
+		<name>Высокий Атлас</name>
+	</wpt>
+	<wpt lat="29.940664" lon="81.771245">
+		<name>Гималаи</name>
+	</wpt>
+	<wpt lat="45.037339" lon="79.920907">
+		<name>Северная Джунгария</name>
+	</wpt>
+	<wpt lat="44.877994" lon="79.328160">
+		<name>Центральная Джунгария</name>
+	</wpt>
+	<wpt lat="44.650350" lon="79.890609">
+		<name>Южная Джунгария</name>
+	</wpt>
+	<wpt lat="42.628222" lon="44.952946">
+		<name>Восточный Кавказ</name>
+	</wpt>
+	<wpt lat="43.472324" lon="41.300356">
+		<name>Западный Кавказ</name>
+	</wpt>
+	<wpt lat="42.973519" lon="43.286350">
+		<name>Центральный Кавказ</name>
+	</wpt>
+	<wpt lat="54.143139" lon="159.746714">
+		<name>Камчатка</name>
+	</wpt>
+	<wpt lat="35.204704" lon="76.974532">
+		<name>Каракорум</name>
+	</wpt>
+	<wpt lat="67.811312" lon="34.657619">
+		<name>Ловозерские тундры</name>
+	</wpt>
+	<wpt lat="67.748591" lon="33.634324">
+		<name>Хибины</name>
+	</wpt>
+	<wpt lat="38.512318" lon="72.342872">
+		<name>Памир</name>
+	</wpt>
+	<wpt lat="36.877501" lon="72.679886">
+		<name>Памир Афганский и Восточный Гиндукуш</name>
+	</wpt>
+	<wpt lat="38.424899" lon="75.283582">
+		<name>Памир Китайский</name>
+	</wpt>
+	<wpt lat="39.337966" lon="69.812154">
+		<name>Памиро-Алай</name>
+	</wpt>
+	<wpt lat="69.289038" lon="92.440151">
+		<name>плато Путорана</name>
+	</wpt>
+	<wpt lat="40.715249" lon="40.960574">
+		<name>Понтийские горы</name>
+	</wpt>
+	<wpt lat="55.212825" lon="108.721976">
+		<name>Байкальский хребет</name>
+	</wpt>
+	<wpt lat="55.159439" lon="110.455133">
+		<name>Баргузинский хребет</name>
+	</wpt>
+	<wpt lat="56.266440" lon="111.121630">
+		<name>Верхне-Ангарский хребет</name>
+	</wpt>
+	<wpt lat="55.498448" lon="112.739410">
+		<name>Икатский и Муйские хребты южнее БАМа</name>
+	</wpt>
+	<wpt lat="57.089320" lon="117.663131">
+		<name>Кодар</name>
+	</wpt>
+	<wpt lat="56.515907" lon="113.773756">
+		<name>Северо-Муйский и Делюн-Уранский хребты</name>
+	</wpt>
+	<wpt lat="62.289201" lon="141.341931">
+		<name>Сунтар-Хаята</name>
+	</wpt>
+	<wpt lat="52.411247" lon="99.395763">
+		<name>Восточный Саян</name>
+	</wpt>
+	<wpt lat="52.577329" lon="92.713736">
+		<name>Западный Саян</name>
+	</wpt>
+	<wpt lat="78.830535" lon="16.134840">
+		<name>Шпицберген</name>
+	</wpt>
+	<wpt lat="37.776663" lon="35.155630">
+		<name>Аладаглар</name>
+	</wpt>
+	<wpt lat="42.234087" lon="79.731607">
+		<name>Восточная часть Центрального Тянь-Шаня</name>
+	</wpt>
+	<wpt lat="43.034415" lon="77.183294">
+		<name>Заилийский Алатау и Кунгей</name>
+	</wpt>
+	<wpt lat="41.758971" lon="71.381311">
+		<name>Западный Тянь-Шань</name>
+	</wpt>
+	<wpt lat="42.478748" lon="74.569020">
+		<name>Киргизский хребет и Карамойнок</name>
+	</wpt>
+	<wpt lat="41.806007" lon="77.624936">
+		<name>Центральный Тянь-Шань</name>
+	</wpt>
+	<wpt lat="66.579277" lon="64.180395">
+		<name>Полярный Урал</name>
+	</wpt>
+	<wpt lat="65.035805" lon="60.408179">
+		<name>Приполярный Урал</name>
+	</wpt>
+	<wpt lat="59.631668" lon="59.135288">
+		<name>Северный Урал</name>
+	</wpt>
+	<wpt lat="65.155346" lon="145.898446">
+		<name>Хребет Черского</name>
+	</wpt>
+	<wpt lat="67.409860" lon="17.779313">
+		<name>Скандинавия</name>
+	</wpt>
+	<wpt lat="54.581605" lon="58.952640">
+		<name>Южный Урал</name>
+	</wpt>
+</gpx>
