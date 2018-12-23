@@ -1,6 +1,3 @@
-from regions_tree import RegionsTree
-from pass_normalizers import westra_pass_to_nakarte
-from itertools import imap, ifilter
 import shapely.ops
 import shapely
 from scipy.spatial import Delaunay

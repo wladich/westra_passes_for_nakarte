@@ -2,7 +2,7 @@ import argparse
 from regions_tree import RegionsTree
 from utils import write_json_with_float_precision
 from pass_normalizers import westra_pass_to_nakarte
-from itertools import imap, ifilter
+from itertools import imap
 import passes_coverage
 
 DEBUG_SAVE_TREE_FILE = None
