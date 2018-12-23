@@ -25,7 +25,6 @@ if __name__ == '__main__':
             regions.save_to_file(f)
         exit(0)
     passes = filter(None, imap(westra_pass_to_nakarte, regions.iterate_passes()))
-    print len(passes)
     with open(conf.output_passes, 'w') as f:
         write_json_with_float_precision(passes, f, precision=6, encoding='utf-8', ensure_ascii=False)
 
