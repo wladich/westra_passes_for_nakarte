@@ -52,6 +52,7 @@ normalized_grades = {
     u'1A-1Б': '1b',
     u'1Б-1А': '1b',
     u'н/к*': 'nograde',
+    u'н.к.': 'nograde',
     u'ок.2А': '2a',
     u'3Б*': '3b',
     u'3А*': '3a',
