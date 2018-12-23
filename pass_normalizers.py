@@ -45,102 +45,100 @@ def sanitize_text(s):
 
 
 normalized_grades = {
-    '1Б-2А': '2a',
-    '1Б-2Б': '2b',
-    'ок.3Б': '3b',
-    'ок.3А': '3a',
-    '1A-1Б': '1b',
-    '1Б-1А': '1b',
-    'н/к*': 'nograde',
-    'ок.2А': '2a',
-    '3Б*': '3b',
-    '3А*': '3a',
-    '1A': '1a',
-    '1Б* (?)': '1b',
-    '2Б(2': '2b',
-    '3А (': '3a',
-    '3A': '3a',
-    'нк': 'nograde',
-    '1А-1Б': '1b',
-    '1A*': '1a',
-    '2Б-3А': '3a',
-    'н к': 'nograde',
-    '1Бтур': '1b',
-    '1Б*': '1b',
-    '2Б*': '2b',
-    '1Блд': '1b',
-    '3А-3Б': '3b',
-    'н/к-1А?': '1a',
-    '1б-2а': '2a',
-    '~2А': '2a',
-    '2Б?': '2b',
-    '1Б?': '1b',
-    '2А-': '2a',
-    '~2A': '2a',
-    '3А,': '3a',
-    '3А*-3Б': '3a',
-    'н/к?': 'nograde',
-    '1A-2А': '2a',
-    '?': 'unknown',
-    '2Б': '2b',
-    '2А': '2a',
-    '2 А': '2a',
-    '~1А': '1a',
-    '2А-3А': '3a',
-    '3А': '3a',
-    '3Б': '3b',
-    '2А-2Б': '2b',
-    'ок.2Б': '2b',
-    '1Бальп': '1a',
-    '2A': '2a',
-    'ок.1Б': '1b',
-    'ок.1А': '1a',
-    '3Б-3Б*': '3b',
-    '1А': '1a',
-    '1Б': '1b',
-    'н.к': 'nograde',
-    '2Б*-3А': '3a',
-    '2б': '2b',
-    '1А*': '1a',
-    '2Аальп': '2a',
-    'н/к': 'nograde',
-    '2А*': '2a',
-    '3а': '3a',
-    'Н/к*': 'nograde',
-    '1А-2А': '2a',
-    '2A*': '2a',
-    '3А-3': '3a',
-    '3Бальп': '3b',
-    '2A-2Б': '2b',
-    '2А - 2Б': '2b',
-    '1А?': '1a',
-    '--': 'unknown',
-    'ос': 'unknown',
-    'н/к-1А': '1a',
-    '1а': '1a',
-    '1б': '1b',
-    '2А?': '2a',
-    '1885': 'unknown',
-    '': 'unknown',
+    u'1Б-2А': '2a',
+    u'1Б-2Б': '2b',
+    u'ок.3Б': '3b',
+    u'ок.3А': '3a',
+    u'1A-1Б': '1b',
+    u'1Б-1А': '1b',
+    u'н/к*': 'nograde',
+    u'ок.2А': '2a',
+    u'3Б*': '3b',
+    u'3А*': '3a',
+    u'1A': '1a',
+    u'1Б* (?)': '1b',
+    u'2Б(2': '2b',
+    u'3А (': '3a',
+    u'3A': '3a',
+    u'нк': 'nograde',
+    u'1А-1Б': '1b',
+    u'1A*': '1a',
+    u'2Б-3А': '3a',
+    u'н к': 'nograde',
+    u'1Бтур': '1b',
+    u'1Б*': '1b',
+    u'2Б*': '2b',
+    u'1Блд': '1b',
+    u'3А-3Б': '3b',
+    u'н/к-1А?': '1a',
+    u'1б-2а': '2a',
+    u'~2А': '2a',
+    u'2Б?': '2b',
+    u'1Б?': '1b',
+    u'2А-': '2a',
+    u'~2A': '2a',
+    u'3А,': '3a',
+    u'3А*-3Б': '3a',
+    u'н/к?': 'nograde',
+    u'1A-2А': '2a',
+    u'?': 'unknown',
+    u'2Б': '2b',
+    u'2А': '2a',
+    u'2 А': '2a',
+    u'~1А': '1a',
+    u'2А-3А': '3a',
+    u'3А': '3a',
+    u'3Б': '3b',
+    u'2А-2Б': '2b',
+    u'ок.2Б': '2b',
+    u'1Бальп': '1a',
+    u'2A': '2a',
+    u'ок.1Б': '1b',
+    u'ок.1А': '1a',
+    u'3Б-3Б*': '3b',
+    u'1А': '1a',
+    u'1Б': '1b',
+    u'н.к': 'nograde',
+    u'2Б*-3А': '3a',
+    u'2б': '2b',
+    u'1А*': '1a',
+    u'2Аальп': '2a',
+    u'н/к': 'nograde',
+    u'2А*': '2a',
+    u'3а': '3a',
+    u'Н/к*': 'nograde',
+    u'1А-2А': '2a',
+    u'2A*': '2a',
+    u'3А-3': '3a',
+    u'3Бальп': '3b',
+    u'2A-2Б': '2b',
+    u'2А - 2Б': '2b',
+    u'1А?': '1a',
+    u'--': 'unknown',
+    u'ос': 'unknown',
+    u'н/к-1А': '1a',
+    u'1а': '1a',
+    u'1б': '1b',
+    u'2А?': '2a',
+    u'1885': 'unknown',
+    u'': 'unknown',
 }
 
 
 def norm_grade(grade):
-    grade = grade.encode('utf-8').strip()
+    grade = grade.strip()
     if grade not in normalized_grades:
         raise ValueError('Unknown grade "%s"' % (grade,))
     return normalized_grades[grade]
 
 
 def check_is_int(s):
-    s = s.encode('utf-8')
     if not s.isdigit():
         raise ValueError('Not digital value "%s"' % (s,))
     return s
 
 
 def parse_is_summit(tech_type):
-    tech_type = tech_type.encode('utf-8')
     if tech_type == '1':
         return False
     if tech_type == '2':
@@ -149,7 +147,6 @@ def parse_is_summit(tech_type):
 
 
 def parse_latitude(lat_str):
-    lat_str = lat_str.encode('utf-8')
     try:
         lat = float(lat_str)
         if not (-90 < lat < 90):
@@ -160,7 +157,6 @@ def parse_latitude(lat_str):
 
 
 def parse_longitude(lon_str):
-    lon_str = lon_str.encode('utf-8')
     try:
         lon = float(lon_str)
         if not (-180 < lon < 180):
@@ -221,7 +217,7 @@ def westra_pass_to_nakarte(westra_pass):
             'author': sanitize_text(westra_pass['user_name']) or None
         }
     except ValueError as e:
-        raise ValueError('Invalid pass id="%s": %s' % (westra_pass['id'], e))
+        raise ValueError((u'Invalid pass id="%s": %s' % (westra_pass['id'], e)).encode('utf-8'))
     for k, v in nakarte_pass.items():
         if v is None:
             del nakarte_pass[k]
