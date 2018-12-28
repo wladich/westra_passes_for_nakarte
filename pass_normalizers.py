@@ -217,6 +217,13 @@ def westra_pass_to_nakarte(westra_pass):
             'comments': prepare_comments(westra_pass.get('comments')) or None,
             'author': sanitize_text(westra_pass['user_name']) or None
         }
+        if 'reportStat' in westra_pass:
+            nakarte_pass['reports_total'] = (check_is_int(westra_pass['reportStat']['total'])
+                                             if westra_pass['reportStat']['total'] != '0' else None)
+            nakarte_pass['reports_photo']= (check_is_int(westra_pass['reportStat']['photo'])
+                                            if westra_pass['reportStat']['photo'] != '0' else None)
+            nakarte_pass['reports_tech'] = (check_is_int(westra_pass['reportStat']['tech'])
+                                            if westra_pass['reportStat']['tech'] != '0' else None)
     except ValueError as e:
         raise ValueError((u'Invalid pass id="%s": %s' % (westra_pass['id'], e)).encode('utf-8'))
     for k, v in nakarte_pass.items():
