@@ -46,6 +46,7 @@ def sanitize_text(s):
 
 normalized_grades = {
     u'1Б-2А': '2a',
+    u'1Б - 2А': '2a',
     u'1Б-2Б': '2b',
     u'ок.3Б': '3b',
     u'ок.3А': '3a',
