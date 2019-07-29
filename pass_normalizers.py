@@ -6,7 +6,7 @@ from HTMLParser import HTMLParser
 unescape = HTMLParser().unescape
 
 
-text_chars = re.compile(u'[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%' +
+text_chars = re.compile(u'[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%@' +
                         u'\u0400-\u04ff' +
                         u'\u2116' +
                         u'\u2014' +
