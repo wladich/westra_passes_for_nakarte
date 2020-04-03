@@ -127,6 +127,7 @@ normalized_grades = {
     u'': 'unknown',
     u'3A альп': '3a',
     u'3Б альп': '3b',
+    u'2А альп': '2a',
 }
 
 
