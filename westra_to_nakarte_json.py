@@ -5,25 +5,17 @@ from pass_normalizers import westra_pass_to_nakarte
 from itertools import imap
 import passes_coverage
 
-DEBUG_SAVE_TREE_FILE = None
-DEBUG_LOAD_FILE = None
-
-
 if __name__ == '__main__':
-    if not DEBUG_SAVE_TREE_FILE:
-        parser = argparse.ArgumentParser()
-        parser.add_argument('output_passes')
-        parser.add_argument('output_coverage')
-        parser.add_argument('output_regions')
-        conf = parser.parse_args()
-    if DEBUG_LOAD_FILE:
-        regions = RegionsTree.from_file(open(DEBUG_LOAD_FILE))
+    parser = argparse.ArgumentParser()
+    parser.add_argument('output_passes')
+    parser.add_argument('output_coverage')
+    parser.add_argument('output_regions')
+    parser.add_argument('--load-tree')
+    conf = parser.parse_args()
+    if conf.load_tree:
+        regions = RegionsTree.from_file(open(conf.load_tree))
     else:
         regions = RegionsTree.from_remote()
-    if DEBUG_SAVE_TREE_FILE:
-        with open(DEBUG_SAVE_TREE_FILE, 'w') as f:
-            regions.save_to_file(f)
-        exit(0)
     passes = filter(None, imap(westra_pass_to_nakarte, regions.iterate_passes()))
     with open(conf.output_passes, 'w') as f:
         write_json_with_float_precision(passes, f, precision=6, encoding='utf-8', ensure_ascii=False)
