@@ -208,6 +208,8 @@ def westra_pass_to_nakarte(westra_pass):
         return None
     if westra_pass['id'] == '12620': # Test pass
         return None
+    if westra_pass['height'] == '-150279': # Test passes
+        return None
 
     try:
         nakarte_pass = {
