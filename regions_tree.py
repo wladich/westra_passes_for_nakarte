@@ -19,7 +19,7 @@ class RegionsTree(object):
 
     @classmethod
     def _get_westra_region_data(cls, region_id):
-        url = 'http://www5.westra.ru/passes/classificator.php?place=%s&export=json' % region_id
+        url = 'http://westra.ru/passes/classificator.php?place=%s&export=json' % region_id
         res = urllib2.urlopen(url, timeout=60)
         return json.load(res)
 
