@@ -11,11 +11,12 @@ if __name__ == '__main__':
     parser.add_argument('output_coverage')
     parser.add_argument('output_regions')
     parser.add_argument('--load-tree')
+    parser.add_argument('--api-host', default='https://westra.ru')
     conf = parser.parse_args()
     if conf.load_tree:
         regions = RegionsTree.from_file(open(conf.load_tree))
     else:
-        regions = RegionsTree.from_remote()
+        regions = RegionsTree.from_remote(api_host=conf.api_host)
     passes = filter(None, imap(westra_pass_to_nakarte, regions.iterate_passes()))
     with open(conf.output_passes, 'w') as f:
         write_json_with_float_precision(passes, f, precision=6, encoding='utf-8', ensure_ascii=False)

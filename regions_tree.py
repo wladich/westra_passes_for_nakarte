@@ -3,6 +3,8 @@ import json
 
 
 class RegionsTree(object):
+    default_api_host = 'https://westra.ru'
+
     def __init__(self, data):
         self.tree = data
 
@@ -11,24 +13,26 @@ class RegionsTree(object):
         return cls(json.load(fd))
 
     @classmethod
-    def from_remote(cls):
-        return cls(cls._download_tree())
+    def from_remote(cls, api_host=None):
+        if api_host is None:
+            api_host = default_api_host
+        return cls(cls._download_tree(api_host))
 
     def save_to_file(self, fd):
         json.dump(self.tree, fd)
 
     @classmethod
-    def _get_westra_region_data(cls, region_id):
-        url = 'http://westra.ru/passes/classificator.php?place=%s&export=json' % region_id
+    def _get_westra_region_data(cls, region_id, api_host):
+        url = '%s/passes/classificator.php?place=%s&export=json' % (api_host, region_id)
         res = urllib2.urlopen(url, timeout=60)
         return json.load(res)
 
     @classmethod
-    def _download_tree(cls):
-        top_level_regions  = cls._get_westra_region_data('0')
+    def _download_tree(cls, api_host):
+        top_level_regions  = cls._get_westra_region_data('0', api_host)
         return {
             'id': '0',
-            'places': [cls._get_westra_region_data(region['id']) for region in top_level_regions],
+            'places': [cls._get_westra_region_data(region['id'], api_host) for region in top_level_regions],
             'title': 'World',
             'passes': []
         }
