@@ -19,7 +19,7 @@ text_chars = re.compile(u'[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%@' +
                         u'\u2033' +
                         u'\u0301' +
                         u'\u0100-\u01f7' +
-                        u"\u00c0-\u00ff°«»'º]")
+                        u"\u00c0-\u00ff°«»'º“”]")
 
 
 def sanitize_text(s):
