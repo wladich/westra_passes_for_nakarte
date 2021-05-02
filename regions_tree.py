@@ -15,7 +15,7 @@ class RegionsTree(object):
     @classmethod
     def from_remote(cls, api_host=None):
         if api_host is None:
-            api_host = default_api_host
+            api_host = cls.default_api_host
         return cls(cls._download_tree(api_host))
 
     def save_to_file(self, fd):
