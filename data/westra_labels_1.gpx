@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" creator="http://nakarte.me" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1">
+	<metadata>
+		<time>2023-02-25T10:49:55.649Z</time>
+	</metadata>
 	<wpt lat="49.994512" lon="87.374809">
 		<name>Алтай</name>
 	</wpt>
 	<wpt lat="46.233347" lon="9.118717">
 		<name>Альпы</name>
 	</wpt>
-	<wpt lat="31.090967" lon="-6.205924">
+	<wpt lat="31.419288" lon="-7.086182">
 		<name>Высокий Атлас</name>
 	</wpt>
 	<wpt lat="29.954934" lon="81.776738">
