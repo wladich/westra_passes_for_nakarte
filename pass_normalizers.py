@@ -110,6 +110,7 @@ normalized_grades = {
     u'1А*': '1a',
     u'2Аальп': '2a',
     u'н/к': 'nograde',
+    u'Н/К': 'nograde',
     u'2А*': '2a',
     u'3а': '3a',
     u'Н/к*': 'nograde',
