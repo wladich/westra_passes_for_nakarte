@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" creator="http://nakarte.me" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1">
 	<metadata>
-		<time>2023-02-25T10:49:55.649Z</time>
+		<time>2023-06-01T21:00:34.518Z</time>
 	</metadata>
 	<wpt lat="49.994512" lon="87.374809">
 		<name>Алтай</name>
@@ -83,5 +83,11 @@
 	</wpt>
 	<wpt lat="45.228481" lon="148.139648">
 		<name>Курилы</name>
+	</wpt>
+	<wpt lat="69.201603" lon="128.847656">
+		<name>Верхоянский хребет</name>
+	</wpt>
+	<wpt lat="55.775028" lon="130.709839">
+		<name>Становой хребет</name>
 	</wpt>
 </gpx>
