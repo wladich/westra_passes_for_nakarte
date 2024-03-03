@@ -20,14 +20,14 @@ def save_points_to_geojson(filename, points):
         data.append({
             'type': 'Feature',
             'properties': {
-                'name': point[2].encode('utf-8')
+                'name': point[2]
             },
             'geometry': {
                 'type': 'Point',
                 'coordinates': [point[1], point[0]],
             }
         })
-    with open(filename, 'w') as f:
+    with open(filename, 'w', encoding='utf-8') as f:
         write_json_with_float_precision(data, f, 5, ensure_ascii=False)
 
 

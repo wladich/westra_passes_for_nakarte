@@ -11,17 +11,11 @@ CONCAVE_ALPHA_METERS = 20000
 BUFFER_METERS = 1000
 SIMPLIFY_METERS = 1000
 
-proj_wgs84 = pyproj.Proj('+init=epsg:4326')
-proj_gmerc = pyproj.Proj('+init=epsg:3857')
+CRS_WGS84 = pyproj.CRS("epsg:4326")
+CRS_GMERC = pyproj.CRS("epsg:3857")
 
-
-def wgs84_to_gmerc((lon, lat)):
-    return pyproj.transform(proj_wgs84, proj_gmerc, lon, lat)
-
-
-def gmerc_to_wgs84(x, y):
-    return pyproj.transform(proj_gmerc, proj_wgs84, x, y)
-
+wgs84_to_gmerc = pyproj.Transformer.from_crs(CRS_WGS84, CRS_GMERC, always_xy=True).transform
+gmerc_to_wgs84 = pyproj.Transformer.from_crs(CRS_GMERC, CRS_WGS84, always_xy=True).transform
 
 def alpha_shape(points, alpha):
     """
@@ -81,7 +75,7 @@ def alpha_shape(points, alpha):
 
 
 def make_coverage_geojson(points):
-    points_projected = map(wgs84_to_gmerc, points)
+    points_projected = [wgs84_to_gmerc(*point) for point in points]
     coverage = alpha_shape(points_projected, 1. / CONCAVE_ALPHA_METERS)
     coverage = coverage.buffer(BUFFER_METERS)
     coverage = coverage.simplify(SIMPLIFY_METERS)

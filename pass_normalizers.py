@@ -1,29 +1,25 @@
 # coding: utf-8
 import re
-from HTMLParser import HTMLParser
+from html import unescape
 
-
-unescape = HTMLParser().unescape
-
-
-text_chars = re.compile(u'[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%@' +
-                        u'\u0400-\u04ff' +
-                        u'\u2116' +
-                        u'\u2014' +
-                        u'#_' +
-                        u'\u2018\u2019\u2032' +
-                        u'=' +
-                        u'\u2013' +
-                        u'\u2026' +
-                        u'\u2212' +
-                        u'\u2033' +
-                        u'\u0301' +
-                        u'\u0100-\u01f7' +
-                        u"\u00c0-\u00ff°«»'º“”±]")
+text_chars = re.compile('[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%@' +
+                        '\u0400-\u04ff' +
+                        '\u2116' +
+                        '\u2014' +
+                        '#_' +
+                        '\u2018\u2019\u2032' +
+                        '=' +
+                        '\u2013' +
+                        '\u2026' +
+                        '\u2212' +
+                        '\u2033' +
+                        '\u0301' +
+                        '\u0100-\u01f7' +
+                        "\u00c0-\u00ff°«»'º“”±]")
 
 
 def sanitize_text(s):
-    if isinstance(s, str):
+    if isinstance(s, bytes):
         s2 = s.decode('utf-8')
     else:
         s2 = s
@@ -36,7 +32,7 @@ def sanitize_text(s):
         .replace('&amp;', '&')\
         .replace(r"\\'", "'")\
         .replace(r"\'", "'")\
-        .replace(u'\xad', '')\
+        .replace('\xad', '')\
         .replace('<', '&lt;')\
         .replace('>', '&gt;')\
         .replace('\t', ' ')
@@ -45,98 +41,98 @@ def sanitize_text(s):
             raise ValueError('Unexpected character #%d %r in string "%r"' % (i, c, s2))
     s2 = re.sub(r'\s+', ' ', s2)
     s2 = s2.strip()
-    return s2.encode('utf-8')
+    return s2
 
 
 normalized_grades = {
-    u'1Б-2А': '2a',
-    u'1Б - 2А': '2a',
-    u'1Б-2Б': '2b',
-    u'ок.3Б': '3b',
-    u'ок.3А': '3a',
-    u'1A-1Б': '1b',
-    u'1Б-1А': '1b',
-    u'н/к*': 'nograde',
-    u'н.к.': 'nograde',
-    u'ок.2А': '2a',
-    u'3Б*': '3b',
-    u'3А*': '3a',
-    u'1A': '1a',
-    u'1Б* (?)': '1b',
-    u'2Б(2': '2b',
-    u'3А (': '3a',
-    u'3A': '3a',
-    u'нк': 'nograde',
-    u'1А-1Б': '1b',
-    u'1A*': '1a',
-    u'2Б-3А': '3a',
-    u'н к': 'nograde',
-    u'1Бтур': '1b',
-    u'1Б*': '1b',
-    u'2Б*': '2b',
-    u'1Блд': '1b',
-    u'3А-3Б': '3b',
-    u'н/к-1А?': '1a',
-    u'1б-2а': '2a',
-    u'~2А': '2a',
-    u'2Б?': '2b',
-    u'1Б?': '1b',
-    u'2А-': '2a',
-    u'~2A': '2a',
-    u'3А,': '3a',
-    u'3А*-3Б': '3b',
-    u'н/к?': 'nograde',
-    u'1A-2А': '2a',
-    u'?': 'unknown',
-    u'2Б': '2b',
-    u'2А': '2a',
-    u'2 А': '2a',
-    u'~1А': '1a',
-    u'2А-3А': '3a',
-    u'3А': '3a',
-    u'3Б': '3b',
-    u'2А-2Б': '2b',
-    u'ок.2Б': '2b',
-    u'1Бальп': '1a',
-    u'2A': '2a',
-    u'ок.1Б': '1b',
-    u'ок.1А': '1a',
-    u'3Б-3Б*': '3b',
-    u'1А': '1a',
-    u'1Б': '1b',
-    u'н.к': 'nograde',
-    u'2Б*-3А': '3a',
-    u'2б': '2b',
-    u'1А*': '1a',
-    u'2Аальп': '2a',
-    u'н/к': 'nograde',
-    u'Н/К': 'nograde',
-    u'2А*': '2a',
-    u'3а': '3a',
-    u'Н/к*': 'nograde',
-    u'1А-2А': '2a',
-    u'2A*': '2a',
-    u'3А-3': '3a',
-    u'3Бальп': '3b',
-    u'2A-2Б': '2b',
-    u'2А - 2Б': '2b',
-    u'1А?': '1a',
-    u'--': 'unknown',
-    u'ос': 'unknown',
-    u'н/к-1А': '1a',
-    u'1а': '1a',
-    u'1б': '1b',
-    u'2А?': '2a',
-    u'1885': 'unknown',
-    u'': 'unknown',
-    u'3A альп': '3a',
-    u'3Б альп': '3b',
-    u'2А альп': '2a',
-    u'1А*-1Б': '1b',
-    u'3A*': '3a',
-    u'н/к-1Б': '1b',
-    u'1Б-1Б*': '1b',
-    u'1а*': '1a',
+    '1Б-2А': '2a',
+    '1Б - 2А': '2a',
+    '1Б-2Б': '2b',
+    'ок.3Б': '3b',
+    'ок.3А': '3a',
+    '1A-1Б': '1b',
+    '1Б-1А': '1b',
+    'н/к*': 'nograde',
+    'н.к.': 'nograde',
+    'ок.2А': '2a',
+    '3Б*': '3b',
+    '3А*': '3a',
+    '1A': '1a',
+    '1Б* (?)': '1b',
+    '2Б(2': '2b',
+    '3А (': '3a',
+    '3A': '3a',
+    'нк': 'nograde',
+    '1А-1Б': '1b',
+    '1A*': '1a',
+    '2Б-3А': '3a',
+    'н к': 'nograde',
+    '1Бтур': '1b',
+    '1Б*': '1b',
+    '2Б*': '2b',
+    '1Блд': '1b',
+    '3А-3Б': '3b',
+    'н/к-1А?': '1a',
+    '1б-2а': '2a',
+    '~2А': '2a',
+    '2Б?': '2b',
+    '1Б?': '1b',
+    '2А-': '2a',
+    '~2A': '2a',
+    '3А,': '3a',
+    '3А*-3Б': '3b',
+    'н/к?': 'nograde',
+    '1A-2А': '2a',
+    '?': 'unknown',
+    '2Б': '2b',
+    '2А': '2a',
+    '2 А': '2a',
+    '~1А': '1a',
+    '2А-3А': '3a',
+    '3А': '3a',
+    '3Б': '3b',
+    '2А-2Б': '2b',
+    'ок.2Б': '2b',
+    '1Бальп': '1a',
+    '2A': '2a',
+    'ок.1Б': '1b',
+    'ок.1А': '1a',
+    '3Б-3Б*': '3b',
+    '1А': '1a',
+    '1Б': '1b',
+    'н.к': 'nograde',
+    '2Б*-3А': '3a',
+    '2б': '2b',
+    '1А*': '1a',
+    '2Аальп': '2a',
+    'н/к': 'nograde',
+    'Н/К': 'nograde',
+    '2А*': '2a',
+    '3а': '3a',
+    'Н/к*': 'nograde',
+    '1А-2А': '2a',
+    '2A*': '2a',
+    '3А-3': '3a',
+    '3Бальп': '3b',
+    '2A-2Б': '2b',
+    '2А - 2Б': '2b',
+    '1А?': '1a',
+    '--': 'unknown',
+    'ос': 'unknown',
+    'н/к-1А': '1a',
+    '1а': '1a',
+    '1б': '1b',
+    '2А?': '2a',
+    '1885': 'unknown',
+    '': 'unknown',
+    '3A альп': '3a',
+    '3Б альп': '3b',
+    '2А альп': '2a',
+    '1А*-1Б': '1b',
+    '3A*': '3a',
+    'н/к-1Б': '1b',
+    '1Б-1Б*': '1b',
+    '1а*': '1a',
 }
 
 
@@ -241,8 +237,8 @@ def westra_pass_to_nakarte(westra_pass):
             nakarte_pass['reports_tech'] = (check_is_int(westra_pass['reportStat']['tech'])
                                             if westra_pass['reportStat']['tech'] != '0' else None)
     except ValueError as e:
-        raise ValueError((u'Invalid pass id="%s": %s' % (westra_pass['id'], e)).encode('utf-8'))
-    for k, v in nakarte_pass.items():
+        raise ValueError(('Invalid pass id="%s": %s' % (westra_pass['id'], e)).encode('utf-8'))
+    for k, v in list(nakarte_pass.items()):
         if v is None:
             del nakarte_pass[k]
     return nakarte_pass

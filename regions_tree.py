@@ -1,5 +1,5 @@
-import urllib2
 import json
+import urllib.request
 
 
 class RegionsTree(object):
@@ -24,7 +24,7 @@ class RegionsTree(object):
     @classmethod
     def _get_westra_region_data(cls, region_id, api_key, api_host):
         url = '%s/passes/classificator.php?place=%s&export=json&key=%s' % (api_host, region_id, api_key)
-        res = urllib2.urlopen(url, timeout=60)
+        res = urllib.request.urlopen(url, timeout=60)
         return json.load(res)
 
     @classmethod
