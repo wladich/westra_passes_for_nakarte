@@ -5,7 +5,6 @@ import numpy as np
 import math
 import pyproj
 
-DEBUG_LOAD_FILE = '/home/w/tmp/westra_passes.json'
 
 CONCAVE_ALPHA_METERS = 20000
 BUFFER_METERS = 1000
