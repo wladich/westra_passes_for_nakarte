@@ -3,18 +3,11 @@ import shapely
 from scipy.spatial import Delaunay
 import numpy as np
 import math
-import pyproj
-
+from webmercator import web_mercator_to_wgs84, wgs84_to_web_mercator
 
 CONCAVE_ALPHA_METERS = 20000
 BUFFER_METERS = 1000
 SIMPLIFY_METERS = 1000
-
-CRS_WGS84 = pyproj.CRS("epsg:4326")
-CRS_GMERC = pyproj.CRS("epsg:3857")
-
-wgs84_to_gmerc = pyproj.Transformer.from_crs(CRS_WGS84, CRS_GMERC, always_xy=True).transform
-gmerc_to_wgs84 = pyproj.Transformer.from_crs(CRS_GMERC, CRS_WGS84, always_xy=True).transform
 
 def alpha_shape(points, alpha):
     """
@@ -74,7 +67,7 @@ def alpha_shape(points, alpha):
 
 
 def make_coverage_geojson(points):
-    points_projected = [wgs84_to_gmerc(*point) for point in points]
+    points_projected = [wgs84_to_web_mercator(*point) for point in points]
     coverage = alpha_shape(points_projected, 1. / CONCAVE_ALPHA_METERS)
     coverage = coverage.buffer(BUFFER_METERS)
     coverage = coverage.simplify(SIMPLIFY_METERS)
@@ -84,6 +77,6 @@ def make_coverage_geojson(points):
     single_points_coverage = single_points.buffer(1)
     coverage = shapely.geometry.MultiPolygon(list(coverage) + list(single_points_coverage))
 
-    coverage = shapely.ops.transform(gmerc_to_wgs84, coverage)
+    coverage = shapely.ops.transform(web_mercator_to_wgs84, coverage)
     return coverage.__geo_interface__
 
