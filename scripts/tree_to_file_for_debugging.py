@@ -1,6 +1,7 @@
-from regions_tree import RegionsTree
-import sys
 from argparse import ArgumentParser
+
+from mountain_passes_for_nakarte.westra.regions_tree import RegionsTree
+
 
 def main():
     parser = ArgumentParser()

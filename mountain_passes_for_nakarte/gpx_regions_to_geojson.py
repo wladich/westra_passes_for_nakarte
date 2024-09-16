@@ -1,7 +1,8 @@
 import argparse
 import re
 import xml.etree.ElementTree as ET
-from utils import write_json_with_float_precision
+
+from .utils import write_json_with_float_precision
 
 
 def read_points_from_gpx(filename):

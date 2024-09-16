@@ -1,9 +1,9 @@
 import argparse
-from regions_tree import RegionsTree
-from utils import write_json_with_float_precision
-from pass_normalizers import westra_pass_to_nakarte
 
-import passes_coverage
+from mountain_passes_for_nakarte import passes_coverage
+from mountain_passes_for_nakarte.utils import write_json_with_float_precision
+from mountain_passes_for_nakarte.westra.pass_normalizers import westra_pass_to_nakarte
+from mountain_passes_for_nakarte.westra.regions_tree import RegionsTree
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

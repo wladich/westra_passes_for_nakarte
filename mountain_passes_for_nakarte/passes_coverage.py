@@ -1,13 +1,16 @@
-import shapely.ops
-import shapely
-from scipy.spatial import Delaunay
-import numpy as np
 import math
-from webmercator import web_mercator_to_wgs84, wgs84_to_web_mercator
+
+import numpy as np
+import shapely
+import shapely.ops
+from scipy.spatial import Delaunay
+
+from .webmercator import web_mercator_to_wgs84, wgs84_to_web_mercator
 
 CONCAVE_ALPHA_METERS = 20000
 BUFFER_METERS = 1000
 SIMPLIFY_METERS = 1000
+
 
 def alpha_shape(points, alpha):
     """
@@ -68,15 +71,16 @@ def alpha_shape(points, alpha):
 
 def make_coverage_geojson(points):
     points_projected = [wgs84_to_web_mercator(*point) for point in points]
-    coverage = alpha_shape(points_projected, 1. / CONCAVE_ALPHA_METERS)
+    coverage = alpha_shape(points_projected, 1.0 / CONCAVE_ALPHA_METERS)
     coverage = coverage.buffer(BUFFER_METERS)
     coverage = coverage.simplify(SIMPLIFY_METERS)
-    assert coverage.geom_type == 'MultiPolygon'
+    assert coverage.geom_type == "MultiPolygon"
 
     single_points = shapely.geometry.MultiPoint(points_projected).difference(coverage)
     single_points_coverage = single_points.buffer(1)
-    coverage = shapely.geometry.MultiPolygon(list(coverage) + list(single_points_coverage))
+    coverage = shapely.geometry.MultiPolygon(
+        list(coverage) + list(single_points_coverage)
+    )
 
     coverage = shapely.ops.transform(web_mercator_to_wgs84, coverage)
     return coverage.__geo_interface__
-
