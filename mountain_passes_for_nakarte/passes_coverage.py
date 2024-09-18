@@ -14,7 +14,7 @@ BUFFER_METERS = 1000
 SIMPLIFY_METERS = 1000
 
 
-def alpha_shape(
+def alpha_shape( # pylint: disable=too-many-locals
     points: list[tuple[float, float]], alpha: float
 ) -> shapely.geometry.base.BaseGeometry:
     """

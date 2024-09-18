@@ -16,7 +16,8 @@ if __name__ == "__main__":
     source_group.add_argument("--api-key")
     conf = parser.parse_args()
     if conf.load_tree:
-        regions = RegionsTree.from_file(open(conf.load_tree))
+        with open(conf.load_tree, encoding="utf-8") as f:
+            regions = RegionsTree.from_file(f)
     else:
         if not conf.api_key:
             parser.error("--api-key is required to load tree from server")
@@ -31,7 +32,7 @@ if __name__ == "__main__":
 
     points = [(p["latlon"][1], p["latlon"][0]) for p in passes]
     coverage = passes_coverage.make_coverage_geojson(points)
-    with open(conf.output_coverage, "w") as f:
+    with open(conf.output_coverage, "w", encoding="utf-8") as f:
         write_json_with_float_precision(coverage, f, precision=3, ensure_ascii=False)
 
     regions_names = []
@@ -40,7 +41,8 @@ if __name__ == "__main__":
             for westra_pass in regions.iterate_passes(region):
                 pass_ = westra_pass_to_nakarte(westra_pass)
                 if pass_:
-                    regions_names.append("%s:%s" % (level, region["title"]))
+                    region_title = region["title"]
+                    regions_names.append(f"{level}:{region_title}")
                     break
     with open(conf.output_regions, "w", encoding="utf-8") as f:
         f.write("\n".join(regions_names))

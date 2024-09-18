@@ -30,7 +30,7 @@ class NakartePass(TypedDict):
 
 
 text_chars = re.compile(
-    '[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%@'
+    r'[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%@'
     + "\u0400-\u04ff"
     + "\u2116"
     + "\u2014"
@@ -65,7 +65,7 @@ def sanitize_text(s: str) -> str | None:
     )
     for i, c in enumerate(s):
         if not text_chars.match(c):
-            raise ValueError('Unexpected character #%d %r in string "%r"' % (i, c, s))
+            raise ValueError(f"Unexpected character #{i} {c!r} in string {s!r}")
     s = re.sub(r"\s+", " ", s)
     s = s.strip()
     return s
@@ -166,13 +166,13 @@ normalized_grades = {
 def norm_grade(grade: str) -> str:
     grade = grade.strip()
     if grade not in normalized_grades:
-        raise ValueError('Unknown grade "%s"' % (grade,))
+        raise ValueError(f"Unknown grade {grade!r}")
     return normalized_grades[grade]
 
 
 def check_is_int(s: str) -> str:
     if not s.isdigit():
-        raise ValueError('Not digital value "%s"' % (s,))
+        raise ValueError(f"Not a digital value {s!r}")
     return s
 
 
@@ -181,26 +181,26 @@ def parse_is_summit(tech_type: str) -> bool:
         return False
     if tech_type == "2":
         return True
-    raise ValueError('Unexpected value "%s" for tech_type field' % (tech_type,))
+    raise ValueError(f"Unexpected value {tech_type!r} for tech_type field")
 
 
 def parse_latitude(lat_str: str) -> float:
     try:
         lat = float(lat_str)
-        if not (-90 < lat < 90):
-            raise ValueError()
-    except ValueError:
-        raise ValueError('Invalid latitude "%s"' % (lat_str,))
+        if not -90 < lat < 90:
+            raise ValueError('Value not in range')
+    except ValueError as exc:
+        raise ValueError(f"Invalid latitude {lat_str!r}") from exc
     return lat
 
 
 def parse_longitude(lon_str: str) -> float:
     try:
         lon = float(lon_str)
-        if not (-180 < lon < 180):
-            raise ValueError()
-    except ValueError:
-        raise ValueError('Invalid longitude "%s"' % (lon_str,))
+        if not -180 < lon < 180:
+            raise ValueError('Value not in range')
+    except ValueError as exc:
+        raise ValueError(f"Invalid longitude {lon_str!r}") from exc
     return lon
 
 
@@ -224,9 +224,8 @@ def pass_has_coordinates(westra_pass: WestraPass) -> bool:
     has_lat = bool("latitude" in westra_pass)
     has_lon = bool("longitude" in westra_pass)
     if has_lat != has_lon:
-        raise ValueError(
-            'Pass id="%s" has only one of latitude and longitude' % westra_pass["id"]
-        )
+        pass_id = westra_pass["id"]
+        raise ValueError(f"Pass id={pass_id!r} has only one of latitude and longitude")
     return has_lat
 
 
@@ -237,6 +236,7 @@ def get_latlon(westra_pass: WestraPass) -> tuple[float, float]:
 
 
 def westra_pass_to_nakarte(westra_pass: WestraPass) -> NakartePass | None:
+    # pylint: disable=too-many-branches
     if not pass_has_coordinates(westra_pass):
         return None
     if westra_pass["id"] == "12620":  # Test pass
@@ -276,6 +276,7 @@ def westra_pass_to_nakarte(westra_pass: WestraPass) -> NakartePass | None:
                 nakarte_pass["reports_photo"] = check_is_int(reports_photo)
             if (reports_tech := westra_pass["reportStat"]["tech"]) != "0":
                 nakarte_pass["reports_tech"] = check_is_int(reports_tech)
-    except ValueError as e:
-        raise ValueError(('Invalid pass id="%s": %s' % (westra_pass["id"], e)))
+    except ValueError as exc:
+        pass_id = westra_pass["id"]
+        raise ValueError((f'Invalid pass id={pass_id!r}: {exc}')) from exc
     return nakarte_pass

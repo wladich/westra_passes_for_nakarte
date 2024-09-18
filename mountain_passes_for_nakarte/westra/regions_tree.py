@@ -61,7 +61,7 @@ class WestraRegion(TypedDict):
     passes: list[WestraPass]
 
 
-class RegionsTree(object):
+class RegionsTree:
     default_api_host = "https://westra.ru"
 
     def __init__(self, data: WestraRegion):
@@ -84,13 +84,9 @@ class RegionsTree(object):
     def _get_westra_region_data(
         cls, region_id: str, api_key: str, api_host: str
     ) -> WestraRegion:
-        url = "%s/passes/classificator.php?place=%s&export=json&key=%s" % (
-            api_host,
-            region_id,
-            api_key,
-        )
-        res = urllib.request.urlopen(url, timeout=60)
-        return cast(WestraRegion, json.load(res))
+        url = f"{api_host}/passes/classificator.php?place={region_id}&export=json&key={api_key}"
+        with urllib.request.urlopen(url, timeout=60) as res:
+            return cast(WestraRegion, json.load(res))
 
     @classmethod
     def _download_tree(cls, api_key: str, api_host: str) -> WestraRegion:
@@ -122,9 +118,8 @@ class RegionsTree(object):
     def iterate_passes(
         self, region: WestraRegion | None = None
     ) -> Iterator[WestraPass]:
-        for region in self.iterate_regions(region):
-            for pass_ in region["passes"]:
-                yield pass_
+        for subregion in self.iterate_regions(region):
+            yield from subregion["passes"]
 
     def list_regions_at_level(self, level: int) -> list[WestraRegion]:
         regions = [self.tree]

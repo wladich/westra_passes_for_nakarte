@@ -13,7 +13,8 @@ class LabelPoint(NamedTuple):
 
 
 def read_points_from_gpx(filename: str) -> list[LabelPoint]:
-    s = open(filename).read()
+    with open(filename, encoding="utf-8") as f:
+        s = f.read()
     s = re.sub('\\sxmlns="[^"]+"', "", s, count=1)
     dom = ET.fromstring(s)
     points = []
@@ -47,7 +48,7 @@ def save_points_to_geojson(filename: str, points: list[LabelPoint]) -> None:
         write_json_with_float_precision(data, f, 5, ensure_ascii=False)
 
 
-if __name__ == "__main__":
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("input")
     parser.add_argument("output")
@@ -55,3 +56,7 @@ if __name__ == "__main__":
 
     points = read_points_from_gpx(conf.input)
     save_points_to_geojson(conf.output, points)
+
+
+if __name__ == "__main__":
+    main()

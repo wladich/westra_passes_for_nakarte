@@ -11,7 +11,7 @@ def main() -> None:
     conf = parser.parse_args()
 
     regions = RegionsTree.from_remote(conf.api_key)
-    with open(conf.output_tree, "w") as f:
+    with open(conf.output_tree, "w", encoding="utf-8") as f:
         regions.save_to_file(f)
 
 
