@@ -12,8 +12,8 @@ class Comment(TypedDict):
 
 
 class NakartePass(TypedDict):
-    name: str
     id: str
+    name: NotRequired[str]
     altnames: NotRequired[str]
     elevation: NotRequired[str]
     grade: NotRequired[str]
@@ -245,14 +245,13 @@ def westra_pass_to_nakarte(westra_pass: WestraPass) -> NakartePass | None:
         return None
 
     try:
-        pass_name = sanitize_text(westra_pass["title"])
-        assert pass_name
         nakarte_pass: NakartePass = {
-            "name": pass_name,
             "id": check_is_int(westra_pass["id"]),
             "grade_eng": norm_grade(westra_pass["cat_sum"]),
             "latlon": get_latlon(westra_pass),
         }
+        if pass_name := sanitize_text(westra_pass["title"]):
+            nakarte_pass["name"] = pass_name
         if altnames := sanitize_text(westra_pass["other_titles"]):
             nakarte_pass["altnames"] = altnames
         if (elevation := westra_pass["height"]) not in ["", "0"]:
