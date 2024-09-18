@@ -38,7 +38,7 @@ mypy:
 #test:
 #	pytest
 
-check: pylint black flake8 mypy # test
+check: mypy pylint flake8 black  # test
 	@echo All checks passed.
 
 .PHONY: venv
