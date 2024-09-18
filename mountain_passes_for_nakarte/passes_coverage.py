@@ -14,7 +14,9 @@ BUFFER_METERS = 1000
 SIMPLIFY_METERS = 1000
 
 
-def alpha_shape(points: list[tuple[float, float]], alpha: float) -> shapely.geometry.base.BaseGeometry:
+def alpha_shape(
+    points: list[tuple[float, float]], alpha: float
+) -> shapely.geometry.base.BaseGeometry:
     """
     Compute the alpha shape (concave hull) of a set
     of points.
@@ -30,11 +32,11 @@ def alpha_shape(points: list[tuple[float, float]], alpha: float) -> shapely.geom
         return shapely.geometry.MultiPoint(list(points)).convex_hull
 
     def add_edge(
-            edges: set[tuple[float, float]],
-            edge_points: list[npt.NDArray[np.float64]],
-            coords: npt.NDArray[np.float64],
-            i: int,
-            j: int,
+        edges: set[tuple[float, float]],
+        edge_points: list[npt.NDArray[np.float64]],
+        coords: npt.NDArray[np.float64],
+        i: int,
+        j: int,
     ) -> None:
         """
         Add a line between the i-th and j-th points,
@@ -86,10 +88,12 @@ def make_coverage_geojson(points: list[tuple[float, float]]) -> Any:
     coverage = cast(shapely.geometry.MultiPolygon, coverage)
 
     single_points = shapely.geometry.MultiPoint(points_projected).difference(coverage)
-    single_points_coverage = cast(shapely.geometry.MultiPolygon, single_points.buffer(1))
+    single_points_coverage = cast(
+        shapely.geometry.MultiPolygon, single_points.buffer(1)
+    )
     assert single_points_coverage.geom_type == "MultiPolygon"
     coverage = shapely.geometry.MultiPolygon(
         list(coverage.geoms) + list(single_points_coverage.geoms)
     )
-    coverage = shapely.ops.transform(web_mercator_to_wgs84, coverage) # type: ignore[arg-type]
+    coverage = shapely.ops.transform(web_mercator_to_wgs84, coverage)  # type: ignore[arg-type]
     return coverage.__geo_interface__

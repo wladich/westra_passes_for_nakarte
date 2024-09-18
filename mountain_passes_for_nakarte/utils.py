@@ -14,5 +14,7 @@ def round_floats(data: Any, precision: int) -> Any:
     return data
 
 
-def write_json_with_float_precision(data: Any, fd: SupportsWrite[str], precision: int, **kwargs: Any) -> None:
+def write_json_with_float_precision(
+    data: Any, fd: SupportsWrite[str], precision: int, **kwargs: Any
+) -> None:
     json.dump(round_floats(data, precision), fd, indent=None, **kwargs)

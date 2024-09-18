@@ -11,6 +11,7 @@ class WestraComment(TypedDict):
     user: str
     add_time: str
 
+
 class WestraReportStats(TypedDict):
     total: str
     tech: str
@@ -62,7 +63,7 @@ class WestraRegion(TypedDict):
 
 
 class RegionsTree(object):
-    default_api_host = 'https://westra.ru'
+    default_api_host = "https://westra.ru"
 
     def __init__(self, data: WestraRegion):
         self.tree = data
@@ -72,7 +73,7 @@ class RegionsTree(object):
         return cls(json.load(fd))
 
     @classmethod
-    def from_remote(cls, api_key: str, api_host: str | None=None) -> "RegionsTree":
+    def from_remote(cls, api_key: str, api_host: str | None = None) -> "RegionsTree":
         if api_host is None:
             api_host = cls.default_api_host
         return cls(cls._download_tree(api_key, api_host))
@@ -81,34 +82,49 @@ class RegionsTree(object):
         json.dump(self.tree, fd)
 
     @classmethod
-    def _get_westra_region_data(cls, region_id: str, api_key: str, api_host: str) -> WestraRegion:
-        url = '%s/passes/classificator.php?place=%s&export=json&key=%s' % (api_host, region_id, api_key)
+    def _get_westra_region_data(
+        cls, region_id: str, api_key: str, api_host: str
+    ) -> WestraRegion:
+        url = "%s/passes/classificator.php?place=%s&export=json&key=%s" % (
+            api_host,
+            region_id,
+            api_key,
+        )
         res = urllib.request.urlopen(url, timeout=60)
         return cast(WestraRegion, json.load(res))
 
     @classmethod
     def _download_tree(cls, api_key: str, api_host: str) -> WestraRegion:
-        top_level_regions  = cast(list[WestraRegion], cls._get_westra_region_data('0', api_key, api_host))
+        top_level_regions = cast(
+            list[WestraRegion], cls._get_westra_region_data("0", api_key, api_host)
+        )
         assert isinstance(top_level_regions, list)
         return {
-            'id': '0',
-            'places': [cls._get_westra_region_data(region['id'], api_key, api_host) for region in top_level_regions],
-            'title': 'World',
-            'passes': []
+            "id": "0",
+            "places": [
+                cls._get_westra_region_data(region["id"], api_key, api_host)
+                for region in top_level_regions
+            ],
+            "title": "World",
+            "passes": [],
         }
 
-    def iterate_regions(self, region: WestraRegion | None=None) -> Iterator[WestraRegion]:
+    def iterate_regions(
+        self, region: WestraRegion | None = None
+    ) -> Iterator[WestraRegion]:
         if region is None:
             region = self.tree
         queue = [region]
         while queue:
             region = queue.pop()
             yield region
-            queue.extend(region['places'])
+            queue.extend(region["places"])
 
-    def iterate_passes(self, region: WestraRegion | None=None) -> Iterator[WestraPass]:
+    def iterate_passes(
+        self, region: WestraRegion | None = None
+    ) -> Iterator[WestraPass]:
         for region in self.iterate_regions(region):
-            for pass_ in region['passes']:
+            for pass_ in region["passes"]:
                 yield pass_
 
     def list_regions_at_level(self, level: int) -> list[WestraRegion]:
@@ -116,8 +132,8 @@ class RegionsTree(object):
         while level:
             regions2 = []
             for region in regions:
-                if region['places']:
-                    regions2.extend(region['places'])
+                if region["places"]:
+                    regions2.extend(region["places"])
                 else:
                     regions2.append(region)
             regions = regions2
