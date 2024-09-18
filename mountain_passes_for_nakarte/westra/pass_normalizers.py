@@ -188,7 +188,7 @@ def parse_latitude(lat_str: str) -> float:
     try:
         lat = float(lat_str)
         if not -90 < lat < 90:
-            raise ValueError('Value not in range')
+            raise ValueError("Value not in range")
     except ValueError as exc:
         raise ValueError(f"Invalid latitude {lat_str!r}") from exc
     return lat
@@ -198,7 +198,7 @@ def parse_longitude(lon_str: str) -> float:
     try:
         lon = float(lon_str)
         if not -180 < lon < 180:
-            raise ValueError('Value not in range')
+            raise ValueError("Value not in range")
     except ValueError as exc:
         raise ValueError(f"Invalid longitude {lon_str!r}") from exc
     return lon
@@ -278,5 +278,5 @@ def westra_pass_to_nakarte(westra_pass: WestraPass) -> NakartePass | None:
                 nakarte_pass["reports_tech"] = check_is_int(reports_tech)
     except ValueError as exc:
         pass_id = westra_pass["id"]
-        raise ValueError((f'Invalid pass id={pass_id!r}: {exc}')) from exc
+        raise ValueError((f"Invalid pass id={pass_id!r}: {exc}")) from exc
     return nakarte_pass
