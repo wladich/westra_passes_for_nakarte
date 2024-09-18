@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from mountain_passes_for_nakarte.westra.regions_tree import RegionsTree
 
 
-def main():
+def main() -> None:
     parser = ArgumentParser()
     parser.add_argument('output_tree')
     parser.add_argument('--api-host', default='https://westra.ru')

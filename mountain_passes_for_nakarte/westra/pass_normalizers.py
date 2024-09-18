@@ -1,6 +1,31 @@
 # coding: utf-8
 import re
 from html import unescape
+from typing import Literal, NotRequired, TypedDict
+
+from .regions_tree import WestraComment, WestraPass
+
+
+class Comment(TypedDict):
+    user: NotRequired[str]
+    content: str
+
+class NakartePass(TypedDict):
+    name: str
+    id: str
+    altnames: NotRequired[str]
+    elevation: NotRequired[str]
+    grade: NotRequired[str]
+    grade_eng: str
+    slopes: NotRequired[str]
+    connects: NotRequired[str]
+    is_summit: NotRequired[Literal[1]]
+    latlon: tuple[float, float]
+    comments: NotRequired[list[Comment]]
+    author: NotRequired[str]
+    reports_total: NotRequired[str]
+    reports_photo: NotRequired[str]
+    reports_tech: NotRequired[str]
 
 text_chars = re.compile('[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%@' +
                         '\u0400-\u04ff' +
@@ -18,16 +43,12 @@ text_chars = re.compile('[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%@' +
                         "\u00c0-\u00ff°«»'º“”±]")
 
 
-def sanitize_text(s):
-    if isinstance(s, bytes):
-        s2 = s.decode('utf-8')
-    else:
-        s2 = s
-    s2 = unescape(unescape(s2))
-    s2 = s2.strip()
-    if s2 == '':
+def sanitize_text(s: str) -> str | None:
+    s = unescape(unescape(s))
+    s = s.strip()
+    if s == '':
         return None
-    s2 = s2.replace('\r', ' ')\
+    s = s.replace('\r', ' ')\
         .replace('\n', ' ')\
         .replace('&amp;', '&')\
         .replace(r"\\'", "'")\
@@ -36,12 +57,12 @@ def sanitize_text(s):
         .replace('<', '&lt;')\
         .replace('>', '&gt;')\
         .replace('\t', ' ')
-    for i, c in enumerate(s2):
+    for i, c in enumerate(s):
         if not text_chars.match(c):
-            raise ValueError('Unexpected character #%d %r in string "%r"' % (i, c, s2))
-    s2 = re.sub(r'\s+', ' ', s2)
-    s2 = s2.strip()
-    return s2
+            raise ValueError('Unexpected character #%d %r in string "%r"' % (i, c, s))
+    s = re.sub(r'\s+', ' ', s)
+    s = s.strip()
+    return s
 
 
 normalized_grades = {
@@ -136,20 +157,20 @@ normalized_grades = {
 }
 
 
-def norm_grade(grade):
+def norm_grade(grade: str) -> str:
     grade = grade.strip()
     if grade not in normalized_grades:
         raise ValueError('Unknown grade "%s"' % (grade,))
     return normalized_grades[grade]
 
 
-def check_is_int(s):
+def check_is_int(s: str) -> str:
     if not s.isdigit():
         raise ValueError('Not digital value "%s"' % (s,))
     return s
 
 
-def parse_is_summit(tech_type):
+def parse_is_summit(tech_type: str) -> bool:
     if tech_type == '1':
         return False
     if tech_type == '2':
@@ -157,7 +178,7 @@ def parse_is_summit(tech_type):
     raise ValueError('Unexpected value "%s" for tech_type field' % (tech_type,))
 
 
-def parse_latitude(lat_str):
+def parse_latitude(lat_str: str) -> float:
     try:
         lat = float(lat_str)
         if not (-90 < lat < 90):
@@ -167,7 +188,7 @@ def parse_latitude(lat_str):
     return lat
 
 
-def parse_longitude(lon_str):
+def parse_longitude(lon_str: str) -> float:
     try:
         lon = float(lon_str)
         if not (-180 < lon < 180):
@@ -177,15 +198,15 @@ def parse_longitude(lon_str):
     return lon
 
 
-def prepare_comments(raw_comments):
-    comments = []
+def prepare_comments(raw_comments: list[WestraComment] | None) -> list[Comment]:
+    comments: list[Comment] = []
     if not raw_comments:
         return comments
     for raw_c in raw_comments:
         content = sanitize_text(raw_c['title'])
         if not content:
             continue
-        comment = {'content': content}
+        comment: Comment = {'content': content}
         user = sanitize_text(raw_c.get('user', ''))
         if user:
             comment['user'] = user
@@ -193,7 +214,7 @@ def prepare_comments(raw_comments):
     return comments
 
 
-def pass_has_coordinates(westra_pass):
+def pass_has_coordinates(westra_pass: WestraPass) -> bool:
     has_lat = bool('latitude' in westra_pass)
     has_lon = bool('longitude' in westra_pass)
     if has_lat != has_lon:
@@ -201,11 +222,11 @@ def pass_has_coordinates(westra_pass):
     return has_lat
 
 
-def get_latlon(westra_pass):
-    return [parse_latitude(westra_pass['latitude']), parse_longitude(westra_pass['longitude'])]
+def get_latlon(westra_pass: WestraPass) -> tuple[float, float]:
+    return parse_latitude(westra_pass['latitude']), parse_longitude(westra_pass['longitude'])
 
 
-def westra_pass_to_nakarte(westra_pass):
+def westra_pass_to_nakarte(westra_pass: WestraPass) -> NakartePass | None:
     if not pass_has_coordinates(westra_pass):
         return None
     if westra_pass['id'] == '12620': # Test pass
@@ -214,31 +235,37 @@ def westra_pass_to_nakarte(westra_pass):
         return None
 
     try:
-        nakarte_pass = {
-            'name': sanitize_text(westra_pass['title']),
+        pass_name = sanitize_text(westra_pass['title'])
+        assert pass_name
+        nakarte_pass: NakartePass = {
+            'name': pass_name,
             'id': check_is_int(westra_pass['id']),
-            'altnames': sanitize_text(westra_pass['other_titles']) or None,
-            'elevation': check_is_int(westra_pass['height'])
-                if (westra_pass['height'] not in ('', '0')) else None,
-            'grade': sanitize_text(westra_pass['cat_sum']) or None,
             'grade_eng': norm_grade(westra_pass['cat_sum']),
-            'slopes': sanitize_text(westra_pass['type_sum']) or None,
-            'connects': sanitize_text(westra_pass['connect']) or None,
-            'is_summit': 1 if parse_is_summit(westra_pass['tech_type']) else None,
             'latlon': get_latlon(westra_pass),
-            'comments': prepare_comments(westra_pass.get('comments')) or None,
-            'author': sanitize_text(westra_pass['user_name']) or None
         }
+        if altnames := sanitize_text(westra_pass['other_titles']):
+            nakarte_pass['altnames'] = altnames
+        if (elevation := westra_pass['height']) not in ['', '0']:
+            nakarte_pass['elevation'] = check_is_int(elevation)
+        if grade := sanitize_text(westra_pass['cat_sum']):
+            nakarte_pass['grade'] = grade
+        if slopes := sanitize_text(westra_pass['type_sum']):
+            nakarte_pass['slopes'] = slopes
+        if connects := sanitize_text(westra_pass['connect']):
+            nakarte_pass['connects'] = connects
+        if parse_is_summit(westra_pass['tech_type']):
+            nakarte_pass['is_summit'] = 1
+        if comments := prepare_comments(westra_pass.get('comments')):
+            nakarte_pass['comments'] = comments
+        if author := sanitize_text(westra_pass['user_name']):
+            nakarte_pass['author'] = author
         if 'reportStat' in westra_pass:
-            nakarte_pass['reports_total'] = (check_is_int(westra_pass['reportStat']['total'])
-                                             if westra_pass['reportStat']['total'] != '0' else None)
-            nakarte_pass['reports_photo']= (check_is_int(westra_pass['reportStat']['photo'])
-                                            if westra_pass['reportStat']['photo'] != '0' else None)
-            nakarte_pass['reports_tech'] = (check_is_int(westra_pass['reportStat']['tech'])
-                                            if westra_pass['reportStat']['tech'] != '0' else None)
+            if (reports_total := westra_pass['reportStat']['total']) != '0':
+                nakarte_pass['reports_total'] = check_is_int(reports_total)
+            if (reports_photo := westra_pass['reportStat']['photo']) != '0':
+                nakarte_pass['reports_photo']= check_is_int(reports_photo)
+            if (reports_tech := westra_pass['reportStat']['tech'] ) != '0':
+                nakarte_pass['reports_tech'] = check_is_int(reports_tech)
     except ValueError as e:
-        raise ValueError(('Invalid pass id="%s": %s' % (westra_pass['id'], e)).encode('utf-8'))
-    for k, v in list(nakarte_pass.items()):
-        if v is None:
-            del nakarte_pass[k]
+        raise ValueError(('Invalid pass id="%s": %s' % (westra_pass['id'], e)))
     return nakarte_pass

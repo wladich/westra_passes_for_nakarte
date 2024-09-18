@@ -4,14 +4,14 @@ import math
 R = 20037508.34
 
 
-def wgs84_to_web_mercator(lon, lat):
+def wgs84_to_web_mercator(lon: float, lat: float) -> tuple[float, float]:
     x = lon * R / 180
     y = math.log(math.tan((90 + lat) * math.pi / 360)) / (math.pi / 180)
     y = y * R / 180
     return x, y
 
 
-def web_mercator_to_wgs84(x, y):
+def web_mercator_to_wgs84(x: float, y: float) -> tuple[float, float]:
     lon = (x / R) * 180
     lat = (y / R) * 180
     lat = 180 / math.pi * (2 * math.atan(math.exp(lat * math.pi / 180)) - math.pi / 2)
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     import unittest
 
     class TestCoordinateConversion(unittest.TestCase):
-        def test_wgs84_to_web_mercator(self):
+        def test_wgs84_to_web_mercator(self) -> None:
             # Test with known WGS84 coordinates
             wgs_lon, wgs_lat = 37.6175, 55.7522
             mercator_x, mercator_y = wgs84_to_web_mercator(wgs_lon, wgs_lat)
@@ -35,7 +35,7 @@ if __name__ == "__main__":
             self.assertAlmostEqual(mercator_x, expected_mercator_x, delta=0.1)
             self.assertAlmostEqual(mercator_y, expected_mercator_y, delta=0.1)
 
-        def test_web_mercator_to_wgs84(self):
+        def test_web_mercator_to_wgs84(self) -> None:
             # Test with known Web Mercator coordinates
             mercator_x, mercator_y = 4187560.9449159685, 7509243.01057922
             wgs_lon, wgs_lat = web_mercator_to_wgs84(mercator_x, mercator_y)

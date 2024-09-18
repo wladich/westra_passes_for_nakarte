@@ -1,21 +1,36 @@
 import argparse
 import re
 import xml.etree.ElementTree as ET
+from typing import NamedTuple
 
-from .utils import write_json_with_float_precision
+from mountain_passes_for_nakarte.utils import write_json_with_float_precision
 
 
-def read_points_from_gpx(filename):
+class LabelPoint(NamedTuple):
+    latitude: str
+    longitude: str
+    title: str
+
+
+def read_points_from_gpx(filename: str) -> list[LabelPoint]:
     s = open(filename).read()
     s = re.sub('\\sxmlns="[^"]+"', '', s, count=1)
     dom = ET.fromstring(s)
     points = []
     for wpt in dom.findall('wpt'):
-        points.append((wpt.attrib['lat'], wpt.attrib['lon'], wpt.find('name').text))
+        wpt_name = wpt.find('name')
+        assert wpt_name
+        title = wpt_name.text
+        assert isinstance(title, str)
+        points.append(
+            LabelPoint(
+                latitude=wpt.attrib['lat'], longitude=wpt.attrib['lon'], title=title
+            )
+        )
     return points
 
 
-def save_points_to_geojson(filename, points):
+def save_points_to_geojson(filename: str, points: list[LabelPoint]) -> None:
     data = []
     for point in points:
         data.append({

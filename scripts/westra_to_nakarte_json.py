@@ -29,14 +29,13 @@ if __name__ == '__main__':
     with open(conf.output_passes, 'w', encoding='utf-8') as f:
         write_json_with_float_precision(passes, f, precision=6, ensure_ascii=False)
 
-    points = [reversed(p['latlon']) for p in passes]
+    points = [(p['latlon'][1], p['latlon'][0]) for p in passes]
     coverage = passes_coverage.make_coverage_geojson(points)
     with open(conf.output_coverage, 'w') as f:
         write_json_with_float_precision(coverage, f, precision=3, ensure_ascii=False)
 
     regions_names = []
     for level in [1, 2]:
-        labels = []
         for region in regions.list_regions_at_level(level):
             for westra_pass in regions.iterate_passes(region):
                 pass_ = westra_pass_to_nakarte(westra_pass)
