@@ -1,7 +1,6 @@
 # coding: utf-8
 import json
-from _typeshed import SupportsWrite
-from typing import Any
+from typing import Any, TextIO
 
 
 def round_floats(data: Any, precision: int) -> Any:
@@ -15,6 +14,6 @@ def round_floats(data: Any, precision: int) -> Any:
 
 
 def write_json_with_float_precision(
-    data: Any, fd: SupportsWrite[str], precision: int, **kwargs: Any
+    data: Any, fd: TextIO, precision: int, **kwargs: Any
 ) -> None:
     json.dump(round_floats(data, precision), fd, indent=None, **kwargs)

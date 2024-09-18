@@ -1,7 +1,6 @@
 import json
 import urllib.request
-from _typeshed import SupportsRead, SupportsWrite
-from typing import TypedDict, cast, Iterator
+from typing import Iterator, TextIO, TypedDict, cast
 
 
 class WestraComment(TypedDict):
@@ -69,7 +68,7 @@ class RegionsTree(object):
         self.tree = data
 
     @classmethod
-    def from_file(cls, fd: SupportsRead[str | bytes]) -> "RegionsTree":
+    def from_file(cls, fd: TextIO) -> "RegionsTree":
         return cls(json.load(fd))
 
     @classmethod
@@ -78,7 +77,7 @@ class RegionsTree(object):
             api_host = cls.default_api_host
         return cls(cls._download_tree(api_key, api_host))
 
-    def save_to_file(self, fd: SupportsWrite[str]) -> None:
+    def save_to_file(self, fd: TextIO) -> None:
         json.dump(self.tree, fd)
 
     @classmethod
