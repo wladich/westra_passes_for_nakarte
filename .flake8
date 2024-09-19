@@ -1,0 +1,32 @@
+[flake8]
+# default Black line length is 88.
+# Black docs suggests to use Bugbear’s B950 which emits error when length exceeds by 10%
+# So using 88 + 10% = 97 and not installing Bugbear
+max-line-length = 97
+import-order-style=pycharm
+; Do not check files:
+exclude =
+    venv
+ignore =
+    # "Whitespace before ':'" - conflicts with Black
+    E203
+    # "line break before binary operator" - conflicts with Black
+    W503
+    # Missing docstring in public module - handled by pylint
+    D100
+    # Missing docstring in public class - handled by pylint
+    D101
+    # Missing docstring in public method - handled by pylint
+    D102
+    # Missing docstring in public function - handled by pylint
+    D103
+    # Missing docstring in public package - handled by pylint
+    D104
+    # imported but unused - handled by pylint
+    F401
+    # Missing docstring in magic method
+    D105
+    # Missing docstring in __init__
+    D107
+    # Multiple statements on one line (def) (conflict with black)
+    E704
