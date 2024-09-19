@@ -55,7 +55,7 @@ def alpha_shape(  # pylint: disable=too-many-locals
     # loop over triangles:
     # ia, ib, ic = indices of corner points of the
     # triangle
-    for ia, ib, ic in tri.vertices:
+    for ia, ib, ic in tri.simplices:
         pa = coords[ia]
         pb = coords[ib]
         pc = coords[ic]
@@ -76,7 +76,7 @@ def alpha_shape(  # pylint: disable=too-many-locals
             add_edge(edges, edge_points, coords, ic, ia)
     m = shapely.geometry.MultiLineString(edge_points)
     triangles = list(shapely.ops.polygonize(m))
-    return shapely.ops.cascaded_union(triangles)
+    return shapely.ops.unary_union(triangles)
 
 
 def make_coverage_geojson(points: list[tuple[float, float]]) -> Any:
