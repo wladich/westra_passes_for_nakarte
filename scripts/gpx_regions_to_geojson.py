@@ -20,7 +20,7 @@ def read_points_from_gpx(filename: str) -> list[LabelPoint]:
     points = []
     for wpt in dom.findall("wpt"):
         wpt_name = wpt.find("name")
-        assert wpt_name
+        assert wpt_name is not None
         title = wpt_name.text
         assert isinstance(title, str)
         points.append(
