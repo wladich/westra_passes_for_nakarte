@@ -5,7 +5,8 @@ from mountain_passes_for_nakarte.utils import write_json_with_float_precision
 from mountain_passes_for_nakarte.westra.pass_normalizers import westra_pass_to_nakarte
 from mountain_passes_for_nakarte.westra.regions_tree import RegionsTree
 
-if __name__ == "__main__":
+
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("output_passes")
     parser.add_argument("output_coverage")
@@ -46,3 +47,7 @@ if __name__ == "__main__":
                     break
     with open(conf.output_regions, "w", encoding="utf-8") as f:
         f.write("\n".join(regions_names))
+
+
+if __name__ == "__main__":
+    main()
