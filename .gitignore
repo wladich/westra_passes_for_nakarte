@@ -2,3 +2,7 @@ venv
 .idea
 *.pyc
 *.egg-info
+test/
+test_reference/
+docker-*/
+test*.sh
