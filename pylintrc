@@ -1,4 +1,5 @@
 [MESSAGES CONTROL]
+ignore-patterns=^venv$
 disable=
     missing-module-docstring,
     missing-function-docstring,
