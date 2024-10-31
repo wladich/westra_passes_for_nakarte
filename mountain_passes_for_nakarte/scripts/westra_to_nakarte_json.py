@@ -6,7 +6,7 @@ from mountain_passes_for_nakarte.westra.pass_normalizers import westra_pass_to_n
 from mountain_passes_for_nakarte.westra.regions_tree import RegionsTree
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("output_passes")
     parser.add_argument("output_coverage")
