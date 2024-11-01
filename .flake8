@@ -1,8 +1,4 @@
 [flake8]
-# default Black line length is 88.
-# Black docs suggests to use Bugbear’s B950 which emits error when length exceeds by 10%
-# So using 88 + 10% = 97 and not installing Bugbear
-max-line-length = 97
 import-order-style=pycharm
 ; Do not check files:
 exclude =
@@ -30,3 +26,5 @@ ignore =
     D107
     # Multiple statements on one line (def) (conflict with black)
     E704
+    # line too long - handled by pylint
+    E501
