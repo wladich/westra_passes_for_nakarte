@@ -1,4 +1,5 @@
 # coding: utf-8
+import re
 from collections import defaultdict
 from typing import TypedDict
 
@@ -41,7 +42,10 @@ class NakarteData(TypedDict):
 
 
 def is_name_of_main_point(name: str) -> bool:
-    return name in ["", "перевал"]
+    return bool(
+        name == ""
+        or re.search(r"\b(перевал|пер\.|седловина|седл\.?)\b", name, re.IGNORECASE)
+    )
 
 
 def get_map_point_coordinate(
