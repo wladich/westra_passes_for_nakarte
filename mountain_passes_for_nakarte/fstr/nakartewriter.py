@@ -11,10 +11,12 @@ COORDS_PRECISION = 5
 
 
 class NakartePassDetailsRow(TypedDict):
+    # pylint: disable=duplicate-code
     number: str
     name: str
     altnames: str
     elevation: str
+    grade: str
     surface_type: str
     connects: str
     coords: str
@@ -131,6 +133,7 @@ def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData
                     name=catalogue_record.name,
                     altnames=catalogue_record.altnames,
                     elevation=catalogue_record.elevation,
+                    grade=catalogue_record.grade,
                     surface_type=catalogue_record.surface_type,
                     connects=catalogue_record.connects,
                     coords=catalogue_record.coordinates,
