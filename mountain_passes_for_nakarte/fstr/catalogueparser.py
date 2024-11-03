@@ -152,7 +152,7 @@ def normalize_coordinates_cell(
     re_deg = "[°º˚⁰]"
     re_min = "[′'ʹ’´ꞌ]"
     re_dot = [".,"]
-    re_text = r"[а-яА-Яa-zA-Z .0-9()\n-]+"
+    re_text = r"[а-яА-Яa-zA-Z .,0-9()\n-]+"
 
     coordinates = {}
     i = 0
