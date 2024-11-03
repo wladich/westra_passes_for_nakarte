@@ -213,7 +213,13 @@ def normalize_coordinates(
         return None, errors
     assert exact_coordinates is not None
     assert approx_coordinates is not None
-    return {**approx_coordinates, **exact_coordinates}, None
+    # Combine two dictionaries preserving order of items and ensuring that
+    # exact coordinates go before the approximate ones.
+    result = dict(exact_coordinates)
+    for k, v in approx_coordinates.items():
+        if k not in result:
+            result[k] = v
+    return result, None
 
 
 def parse_catalog(table_file: typing.BinaryIO) -> list[CatalogueRecord]:

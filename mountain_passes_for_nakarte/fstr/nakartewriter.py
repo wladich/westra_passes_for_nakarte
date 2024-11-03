@@ -41,22 +41,30 @@ class NakarteData(TypedDict):
     regions: dict[str, NakarteRegion]
 
 
-def is_name_of_main_point(name: str) -> bool:
-    return bool(
-        name == ""
-        or re.search(r"\b(перевал|пер\.|седловина|седл\.?)\b", name, re.IGNORECASE)
-    )
+def is_exclusive_name_of_main_point(name: str) -> bool:
+    return bool(name == "" or re.search(r"\b(перевал|пер\.)\b", name, re.IGNORECASE))
+
+
+def is_non_exclusive_name_of_main_point(name: str) -> bool:
+    return bool(re.search(r"\b(седловина|седл\.?)\b", name, re.IGNORECASE))
 
 
 def get_map_point_coordinate(
     points: dict[str, Coordinates]
 ) -> tuple[Coordinates | None, str | None]:
     main_coordinate = None
+    is_main_coordinate_from_exclusive_point = False
     for name, coord in points.items():
-        if is_name_of_main_point(name):
+        if is_non_exclusive_name_of_main_point(name):
+            if is_main_coordinate_from_exclusive_point:
+                return None, "multiple coordinates for map point"
+            if main_coordinate is None:  # use first such coordinate
+                main_coordinate = coord
+        elif is_exclusive_name_of_main_point(name):
             if main_coordinate is not None:
-                return None, "multiple coordinates for map point"  # type: ignore[unreachable]
+                return None, "multiple coordinates for map point"
             main_coordinate = coord
+            is_main_coordinate_from_exclusive_point = True
     if main_coordinate is None:
         return None, "no coordinates for map point"
     return main_coordinate, None
