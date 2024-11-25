@@ -7,8 +7,6 @@ from .catalogueparser import CatalogueRecord, Coordinates
 from .regions import regions
 from .utils import report_error
 
-COORDS_PRECISION = 5
-
 
 class NakartePassDetailsRow(TypedDict):
     # pylint: disable=duplicate-code
@@ -143,10 +141,7 @@ def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData
                 )
             )
         pass_point = NakartePassPoint(
-            latlon=(
-                round(coords.latitude, COORDS_PRECISION),
-                round(coords.longitude, COORDS_PRECISION),
-            ),
+            latlon=(coords.latitude, coords.longitude),
             point_grade=min(grades),
             point_name=first_name,
             region_id=str(first_region.id),
