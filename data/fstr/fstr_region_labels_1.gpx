@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" creator="http://nakarte.me" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1">
 	<metadata>
-		<time>2023-06-01T21:00:34.518Z</time>
+		<time>2024-11-28T22:11:26.045Z</time>
 	</metadata>
 	<wpt lat="49.994512" lon="87.374809">
-		<name>Test 1</name>
+		<name>Алтай</name>
+	</wpt>
+	<wpt lat="46.004593" lon="7.778320">
+		<name>Пенинские Альпы</name>
+	</wpt>
+	<wpt lat="43.117478" lon="42.713688">
+		<name>Кавказ</name>
+	</wpt>
+	<wpt lat="39.337966" lon="69.812154">
+		<name>Памиро-Алай</name>
+	</wpt>
+	<wpt lat="38.512318" lon="72.342872">
+		<name>Памир</name>
+	</wpt>
+	<wpt lat="35.204704" lon="76.974532">
+		<name>Каракорум</name>
+	</wpt>
+	<wpt lat="28.439714" lon="85.012207">
+		<name>Гималаи</name>
+	</wpt>
+	<wpt lat="37.776663" lon="35.155630">
+		<name>Аладаглар</name>
+	</wpt>
+	<wpt lat="40.813809" lon="41.160278">
+		<name>Качкар</name>
+	</wpt>
+	<wpt lat="31.419288" lon="-7.086182">
+		<name>Высокий Атлас</name>
+	</wpt>
+	<wpt lat="41.988676" lon="76.022241">
+		<name>Тянь-Шань</name>
 	</wpt>
 </gpx>

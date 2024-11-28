@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" creator="http://nakarte.me" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1">
-	<wpt lat="49.826863" lon="86.433247">
-		<name>Test 2</name>
+	<wpt lat="49.818602" lon="87.719870">
+		<name>Южно-Чуйский хребет</name>
 	</wpt>
+	<wpt lat="50.057169" lon="87.542222">
+		<name>Северо-Чуйский хребет</name>
+	</wpt>
+	<wpt lat="49.826863" lon="86.433247">
+		<name>Катунский хребет</name>
+	</wpt>
+	<wpt lat="49.134896" lon="87.842458">
+		<name>Монгольский Алтай</name>
+	</wpt>
+	<wpt lat="46.004593" lon="7.778320">
+		<name>Пенинские Альпы</name>
+	</wpt>
+	<wpt lat="43.472324" lon="41.300356">
+		<name>Западный Кавказ</name>
+	</wpt>
+	<wpt lat="42.973519" lon="43.286350">
+		<name>Центральный Кавказ</name>
+	</wpt>
+	<wpt lat="42.628222" lon="44.952946">
+		<name>Восточный Кавказ</name>
+	</wpt>
+	<wpt lat="39.337966" lon="69.812154">
+		<name>Памиро-Алай</name>
+	</wpt>
+	<wpt lat="38.512318" lon="72.342872">
+		<name>Памир</name>
+	</wpt>
+	<wpt lat="35.204704" lon="76.974532">
+		<name>Каракорум</name>
+	</wpt>
+	<wpt lat="28.439714" lon="85.012207">
+		<name>Гималаи</name>
+	</wpt>
+	<wpt lat="37.776663" lon="35.155630">
+		<name>Аладаглар</name>
+	</wpt>
+	<wpt lat="40.813809" lon="41.160278">
+		<name>Качкар</name>
+	</wpt>
+	<wpt lat="31.419288" lon="-7.086182">
+		<name>Высокий Атлас</name>
+	</wpt>
+	<wpt lat="42.478748" lon="74.569020">
+		<name>Северный Тянь-Шань</name>
+	</wpt>
+	<wpt lat="43.034415" lon="77.183294">
+		<name>Заилийский Алатау и Кунгей-Алатау</name>
+	</wpt>
+	<wpt lat="41.806007" lon="77.624936">
+		<name>Центральный Тянь-Шань</name>
+	</wpt>
+	<wpt lat="42.234087" lon="79.731607">
+		<name>Восточная часть Центрального Тянь-Шаня</name>
+	</wpt>
+	<wpt lat="45.037339" lon="79.920907">
+		<name>Северная Джунгария</name>
+	</wpt>
+	<wpt lat="44.877994" lon="79.328160">
+		<name>Центральная Джунгария</name>
+	</wpt>
+	<wpt lat="44.650350" lon="79.890609">
+		<name>Южная Джунгария</name>
+	</wpt>
+
+
+
+
+
 </gpx>
