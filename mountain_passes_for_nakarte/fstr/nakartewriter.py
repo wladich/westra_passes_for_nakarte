@@ -1,7 +1,7 @@
 # coding: utf-8
 import re
 from collections import defaultdict
-from typing import TypedDict
+from typing import Collection, NotRequired, TypedDict
 
 from .catalogueparser import CatalogueRecord, Coordinates
 from .regions import regions
@@ -25,8 +25,10 @@ class NakartePassDetailsRow(TypedDict):
 
 class NakartePassPoint(TypedDict):
     latlon: tuple[float, float]
-    point_grade: str
-    point_name: str
+    grade_min: str
+    grade_max: NotRequired[str]
+    elevation: NotRequired[int]
+    name: str
     region_id: str
     details: list[NakartePassDetailsRow]
 
@@ -70,7 +72,21 @@ def get_map_point_coordinate(
     return main_coordinate, None
 
 
+def get_min_grade(grades: Collection[str]) -> str:
+    if "nograde" in grades:
+        return "nograde"
+    return min(grades)
+
+
+def get_max_grade(grades: Collection[str]) -> str:
+    grades = set(grades)
+    if len(grades) > 1:
+        grades.discard("nograde")
+    return max(grades)
+
+
 def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData:
+    # pylint: disable=too-many-locals
     nakarte_regions = {
         str(region.id): NakarteRegion(name=region.region_name, url=region.url_suffix)
         for region in regions
@@ -98,6 +114,7 @@ def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData
         first_region = first_record.region
 
         grades: set[str] = set()
+        elevations: set[str] = set()
         details = []
 
         for catalogue_record in catalogue_records:
@@ -110,6 +127,8 @@ def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData
                     catalogue_record.index_number,
                 )
                 continue
+            # It is important that first record has simple name as it is used for point
+            # name JS part.
             if (
                 catalogue_record.name != first_name
                 and not catalogue_record.name.startswith(f"{first_name} + ")
@@ -125,6 +144,7 @@ def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData
                 )
                 continue
             grades.update(catalogue_record.normalized_grades)
+            elevations.add(catalogue_record.elevation)
             details.append(
                 NakartePassDetailsRow(
                     number=catalogue_record.index_number,
@@ -140,12 +160,18 @@ def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData
                     comment=catalogue_record.comment,
                 )
             )
+        min_grade = get_min_grade(grades)
+        max_grade = get_max_grade(grades)
         pass_point = NakartePassPoint(
             latlon=(coords.latitude, coords.longitude),
-            point_grade=min(grades),
-            point_name=first_name,
+            grade_min=min_grade,
+            name=first_name,
             region_id=str(first_region.id),
             details=details,
         )
+        if min_grade != max_grade:
+            pass_point["grade_max"] = max_grade
+        if len(elevations) == 1 and (elevation := elevations.pop()).isdigit():
+            pass_point["elevation"] = int(elevation)
         passes.append(pass_point)
     return {"passes": passes, "regions": nakarte_regions}
