@@ -58,7 +58,8 @@ def sanitize_text(s: str) -> str | None:
         .replace("&amp;", "&")
         .replace(r"\\'", "'")
         .replace(r"\'", "'")
-        .replace("\xad", "")
+        .replace("\xad", "") # Soft hyphen
+        .replace("\xa0", " ") # Non-breaking space
         .replace("<", "&lt;")
         .replace(">", "&gt;")
         .replace("\t", " ")
