@@ -1,11 +1,18 @@
 # coding: utf-8
 import re
 from collections import defaultdict
-from typing import Collection, NotRequired, TypedDict
+from dataclasses import dataclass
+from typing import Collection, Literal, NotRequired, TypedDict
 
-from .catalogueparser import CatalogueRecord, Coordinates
+from .catalogueparser import CatalogueRecord, CoordinatesWithPrecision
 from .regions import regions
 from .utils import report_error
+
+
+@dataclass(frozen=True)
+class Coordinates:
+    latitude: float
+    longitude: float
 
 
 class NakartePassDetailsRow(TypedDict):
@@ -25,6 +32,7 @@ class NakartePassDetailsRow(TypedDict):
 
 class NakartePassPoint(TypedDict):
     latlon: tuple[float, float]
+    approx: NotRequired[Literal[True]]
     grade_min: str
     grade_max: NotRequired[str]
     elevation: NotRequired[int]
@@ -52,8 +60,8 @@ def is_non_exclusive_name_of_main_point(name: str) -> bool:
 
 
 def get_map_point_coordinate(
-    points: dict[str, Coordinates]
-) -> tuple[Coordinates | None, str | None]:
+    points: dict[str, CoordinatesWithPrecision]
+) -> tuple[CoordinatesWithPrecision | None, str | None]:
     main_coordinate = None
     is_main_coordinate_from_exclusive_point = False
     for name, coord in points.items():
@@ -92,7 +100,9 @@ def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData
         for region in regions
     }
 
-    points: defaultdict[Coordinates, list[CatalogueRecord]] = defaultdict(list)
+    points: defaultdict[
+        Coordinates, list[tuple[CatalogueRecord, CoordinatesWithPrecision]]
+    ] = defaultdict(list)
     for catalogue_record in records:
         coord, error = get_map_point_coordinate(catalogue_record.normalized_coordinates)
         if error:
@@ -105,19 +115,21 @@ def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData
             )
             continue
         assert coord is not None
-        points[coord].append(catalogue_record)
+        simple_coords = Coordinates(coord.latitude, coord.longitude)
+        points[simple_coords].append((catalogue_record, coord))
 
     passes = []
-    for coords, catalogue_records in points.items():
-        first_record = catalogue_records[0]
+    for catalogue_records in points.values():
+        first_record = catalogue_records[0][0]
         first_name = first_record.name
         first_region = first_record.region
+        first_coords = catalogue_records[0][1]
 
         grades: set[str] = set()
         elevations: set[str] = set()
         details = []
 
-        for catalogue_record in catalogue_records:
+        for catalogue_record, record_map_coords in catalogue_records:
             if catalogue_record.region != first_region:
                 report_error(
                     "Different regions for one point",
@@ -143,6 +155,18 @@ def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData
                     catalogue_record.name,
                 )
                 continue
+            assert (
+                record_map_coords.longitude == first_coords.longitude
+                and record_map_coords.latitude == first_coords.latitude
+            )
+            if record_map_coords.exact != first_coords.exact:
+                report_error(
+                    "Some coords are exact and some are approx for records in single point",
+                    first_region.worksheet_name,
+                    first_record.index_number,
+                    catalogue_record.region.worksheet_name,
+                    catalogue_record.index_number,
+                )
             grades.update(catalogue_record.normalized_grades)
             elevations.add(catalogue_record.elevation)
             details.append(
@@ -163,12 +187,14 @@ def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData
         min_grade = get_min_grade(grades)
         max_grade = get_max_grade(grades)
         pass_point = NakartePassPoint(
-            latlon=(coords.latitude, coords.longitude),
+            latlon=(first_coords.latitude, first_coords.longitude),
             grade_min=min_grade,
             name=first_name,
             region_id=str(first_region.id),
             details=details,
         )
+        if not first_coords.exact:
+            pass_point["approx"] = True
         if min_grade != max_grade:
             pass_point["grade_max"] = max_grade
         if len(elevations) == 1 and (elevation := elevations.pop()).isdigit():

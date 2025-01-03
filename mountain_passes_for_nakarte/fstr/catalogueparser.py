@@ -25,9 +25,10 @@ class RowFields(NamedTuple):
 
 
 @dataclass(frozen=True)
-class Coordinates:
+class CoordinatesWithPrecision:
     latitude: float
     longitude: float
+    exact: bool
 
 
 @dataclass(frozen=True)
@@ -45,7 +46,7 @@ class CatalogueRecord:  # pylint: disable=too-many-instance-attributes
     connects: str
     coordinates: str
     approximate_coordinates: str
-    normalized_coordinates: dict[str, Coordinates]
+    normalized_coordinates: dict[str, CoordinatesWithPrecision]
     first_visit: str
     comment: str
 
@@ -146,8 +147,8 @@ def normalize_grade(s: str) -> list[str] | None:
 
 
 def normalize_coordinates_cell(
-    s: str,
-) -> tuple[dict[str, Coordinates] | None, list[str] | None]:
+    s: str, is_coords_exact: bool
+) -> tuple[dict[str, CoordinatesWithPrecision] | None, list[str] | None]:
     # pylint: disable=too-many-locals
     re_deg = "[°º˚⁰]"
     re_min = "[′'ʹ’´ꞌ]"
@@ -188,23 +189,29 @@ def normalize_coordinates_cell(
         point_name = (m.group("name") or "").strip()
         if point_name in coordinates:
             return None, ["multiple coordinates with same name in one cell"]
-        coordinates[point_name] = Coordinates(latitude=lat, longitude=lon)
+        coordinates[point_name] = CoordinatesWithPrecision(
+            latitude=lat, longitude=lon, exact=is_coords_exact
+        )
         i += m.end()
     return coordinates or None, None
 
 
 def normalize_coordinates(
     exact: str, approx: str
-) -> tuple[dict[str, Coordinates] | None, list[list[str]] | None]:
+) -> tuple[dict[str, CoordinatesWithPrecision] | None, list[list[str]] | None]:
     errors = []
     if exact:
-        exact_coordinates, error = normalize_coordinates_cell(exact)
+        exact_coordinates, error = normalize_coordinates_cell(
+            exact, is_coords_exact=True
+        )
         if error:
             errors.append([*error, repr(exact)])
     else:
         exact_coordinates = {}
     if approx:
-        approx_coordinates, error = normalize_coordinates_cell(approx)
+        approx_coordinates, error = normalize_coordinates_cell(
+            approx, is_coords_exact=False
+        )
         if error:
             errors.append([*error, repr(approx)])
     else:
