@@ -5,6 +5,7 @@ from typing import NamedTuple
 
 DATA_FILENAME = "regions.csv"
 DATA_FILE_PATH = Path(__file__).parent / DATA_FILENAME
+REGION_PAGES_URL_PREFIX = "https://tssr.ru/mountain/pereval/"
 
 
 class Region(NamedTuple):

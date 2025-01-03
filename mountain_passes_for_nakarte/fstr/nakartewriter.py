@@ -3,9 +3,11 @@ import re
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Collection, Literal, NotRequired, TypedDict
+from urllib.error import URLError
+from urllib.request import urlopen
 
 from .catalogueparser import CatalogueRecord, CoordinatesWithPrecision
-from .regions import regions
+from .regions import REGION_PAGES_URL_PREFIX, regions
 from .utils import report_error
 
 
@@ -93,8 +95,21 @@ def get_max_grade(grades: Collection[str]) -> str:
     return max(grades)
 
 
+def check_regions_page_urls() -> None:
+    for region in regions:
+        url = REGION_PAGES_URL_PREFIX + region.url_suffix
+        try:
+            with urlopen(url, timeout=5):
+                pass
+        except URLError as exc:
+            report_error(
+                "Broken link for region page", region.region_name, url, str(exc)
+            )
+
+
 def convert_catalogue_for_nakarte(records: list[CatalogueRecord]) -> NakarteData:
     # pylint: disable=too-many-locals
+    check_regions_page_urls()
     nakarte_regions = {
         str(region.id): NakarteRegion(name=region.region_name, url=region.url_suffix)
         for region in regions
