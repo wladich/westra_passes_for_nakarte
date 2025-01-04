@@ -172,14 +172,14 @@ def normalize_coordinates_cell(
             return None, ["no coordinate found at position", str(i)]
         lat_deg = int(m.group("lat_deg"))
         lat_min_int = int(m.group("lat_min_int"))
-        lat_min_frac = int(m.group("lat_min_frac"))
+        lat_min_frac = float("0.%s" % m.group("lat_min_frac"))
         lon_deg = int(m.group("lon_deg"))
         lon_min_int = int(m.group("lon_min_int"))
-        lon_min_frac = int(m.group("lon_min_frac"))
+        lon_min_frac = float("0.%s" % m.group("lon_min_frac"))
         if lat_deg > 90 or lat_min_int > 60 or lon_deg > 180 or lon_min_int > 60:
             return None, ["coordinate field out of range"]
-        lat = lat_deg + (lat_min_int + float(f"0.{lat_min_frac}")) / 60
-        lon = lon_deg + (lon_min_int + float(f"0.{lon_min_frac}")) / 60
+        lat = lat_deg + (lat_min_int + lat_min_frac) / 60
+        lon = lon_deg + (lon_min_int + lon_min_frac) / 60
         if lat > 90 or lon > 180:
             return None, ["coordinates value out of range"]
         if m.group("lat_hemi") == "S":
