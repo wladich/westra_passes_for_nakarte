@@ -31,6 +31,7 @@ class NakartePass(TypedDict):
 
 text_chars = re.compile(
     r'[-"?!+A-Za-z0-9 ,.():;/*~&[\]`%@'
+    + "<>"
     + "\u0400-\u04ff"
     + "\u2116"
     + "\u2014"
@@ -60,8 +61,6 @@ def sanitize_text(s: str) -> str | None:
         .replace(r"\'", "'")
         .replace("\xad", "")  # Soft hyphen
         .replace("\xa0", " ")  # Non-breaking space
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
         .replace("\t", " ")
     )
     for i, c in enumerate(s):
