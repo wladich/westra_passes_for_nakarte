@@ -4,6 +4,7 @@ disable=
     missing-module-docstring,
     missing-function-docstring,
     missing-class-docstring,
+    consider-using-f-string,
 
 enable=
    bad-inline-option,
