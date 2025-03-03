@@ -1,9 +1,10 @@
 # coding: utf-8
-from mountain_passes_for_nakarte.fstr.catalogueparser import (
-    normalize_coordinates_cell,
-    CoordinatesWithPrecision,
-)
 import pytest
+
+from mountain_passes_for_nakarte.fstr.catalogueparser import (
+    CoordinatesWithPrecision,
+    normalize_coordinates_cell,
+)
 
 
 @pytest.mark.parametrize(
