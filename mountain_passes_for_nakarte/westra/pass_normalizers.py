@@ -3,7 +3,7 @@ import re
 from html import unescape
 from typing import Literal, NotRequired, TypedDict
 
-from .regions_tree import WestraComment, WestraPass
+from .regions_tree import WestraComment, WestraPass, WestraRegion
 
 
 class Comment(TypedDict):
@@ -27,6 +27,7 @@ class NakartePass(TypedDict):
     reports_total: NotRequired[str]
     reports_photo: NotRequired[str]
     reports_tech: NotRequired[str]
+    regions: list[str]
 
 
 text_chars = re.compile(
@@ -238,8 +239,10 @@ def get_latlon(westra_pass: WestraPass) -> tuple[float, float]:
     )
 
 
-def westra_pass_to_nakarte(westra_pass: WestraPass) -> NakartePass | None:
-    # pylint: disable=too-many-branches
+def westra_pass_to_nakarte(
+    westra_pass: WestraPass, regions_path: list[WestraRegion]
+) -> NakartePass | None:
+    # pylint: disable=too-many-branches, disable=too-many-locals
     if not pass_has_coordinates(westra_pass):
         return None
     if westra_pass["id"] == "12620":  # Test pass
@@ -252,6 +255,7 @@ def westra_pass_to_nakarte(westra_pass: WestraPass) -> NakartePass | None:
             "id": check_is_int(westra_pass["id"]),
             "grade_eng": norm_grade(westra_pass["cat_sum"]),
             "latlon": get_latlon(westra_pass),
+            "regions": [region["id"] for region in regions_path if region["id"] != "0"],
         }
         if pass_name := sanitize_text(westra_pass["title"]):
             nakarte_pass["name"] = pass_name

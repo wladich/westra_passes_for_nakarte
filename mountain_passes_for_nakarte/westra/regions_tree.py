@@ -105,21 +105,23 @@ class RegionsTree:
         }
 
     def iterate_regions(
-        self, region: WestraRegion | None = None
-    ) -> Iterator[WestraRegion]:
-        if region is None:
-            region = self.tree
-        queue = [region]
+        self, start_region: WestraRegion | None = None
+    ) -> Iterator[list[WestraRegion]]:
+        """Iterate regions with parents."""
+        if start_region is None:
+            start_region = self.tree
+        queue = [[start_region]]
         while queue:
-            region = queue.pop()
-            yield region
-            queue.extend(region["places"])
+            region_path = queue.pop()
+            yield region_path
+            for region in region_path[-1]["places"]:
+                queue.append(region_path + [region])
 
     def iterate_passes(
         self, region: WestraRegion | None = None
-    ) -> Iterator[WestraPass]:
-        for subregion in self.iterate_regions(region):
-            yield from subregion["passes"]
+    ) -> Iterator[tuple[WestraPass, list[WestraRegion]]]:
+        for region_path in self.iterate_regions(region):
+            yield from ((pass_, region_path) for pass_ in region_path[-1]["passes"])
 
     def list_regions_at_level(self, level: int) -> list[WestraRegion]:
         regions = [self.tree]
