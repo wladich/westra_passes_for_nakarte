@@ -33,7 +33,7 @@ flake8:
 	flake8 .
 
 mypy:
-	mypy .
+	mypy mountain_passes_for_nakarte
 
 #test:
 #	pytest
