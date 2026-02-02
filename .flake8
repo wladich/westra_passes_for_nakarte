@@ -2,7 +2,7 @@
 import-order-style=pycharm
 ; Do not check files:
 exclude =
-    venv
+    .venv
 ignore =
     # "Whitespace before ':'" - conflicts with Black
     E203

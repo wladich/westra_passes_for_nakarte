@@ -1,7 +1,34 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+[project]
+name = "mountain_passes_for_nakarte"
+version = "0.0.4"
+requires-python = "==3.11.*"
+dependencies = [
+    "numpy==2.1.2",
+    "odfpy==1.4.1",
+    "scipy==1.14.1",
+    "shapely==2.0.6",
+]
 
-#[tool.black]
-# Single regexp of excluded files
-#extend-exclude = ''
+[project.scripts]
+westra_tree_to_file_for_debugging = "mountain_passes_for_nakarte.scripts.westra_tree_to_file_for_debugging:main"
+westra_to_nakarte_json = "mountain_passes_for_nakarte.scripts.westra_to_nakarte_json:main"
+gpx_regions_to_geojson = "mountain_passes_for_nakarte.scripts.gpx_regions_to_geojson:main"
+fstr_to_nakarte_json = "mountain_passes_for_nakarte.scripts.fstr_to_nakarte_json:main"
+fstr_save_table = "mountain_passes_for_nakarte.scripts.fstr_save_table:main"
+
+[build-system]
+requires = ["uv_build>=0.9.21,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = ""
+
+[dependency-groups]
+dev = [
+    "black>=26.1.0",
+    "flake8>=7.3.0",
+    "mypy>=1.19.1",
+    "pylint>=4.0.4",
+    "pytest>=9.0.2",
+    "types-shapely>=2.1.0.20250917",
+]
