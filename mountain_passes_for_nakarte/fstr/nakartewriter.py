@@ -62,7 +62,7 @@ def is_non_exclusive_name_of_main_point(name: str) -> bool:
 
 
 def get_map_point_coordinate(
-    points: dict[str, CoordinatesWithPrecision]
+    points: dict[str, CoordinatesWithPrecision],
 ) -> tuple[CoordinatesWithPrecision | None, str | None]:
     main_coordinate = None
     is_main_coordinate_from_exclusive_point = False

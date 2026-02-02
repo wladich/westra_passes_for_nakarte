@@ -1,5 +1,6 @@
 # coding: utf-8
 """Read ods file with passes catalogue, verify, sanitize, and structure data."""
+
 import re
 import typing
 from dataclasses import dataclass

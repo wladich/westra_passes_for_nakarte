@@ -153,6 +153,7 @@ normalized_grades = {
     "ос": "unknown",
 }
 
+
 def norm_grade(grade: str) -> str:
     grade = grade.replace(" ", "").replace("\t", "").replace("\n", "").lower()
     if grade not in normalized_grades:
