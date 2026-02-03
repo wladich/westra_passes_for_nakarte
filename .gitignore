@@ -2,7 +2,7 @@
 .idea
 *.pyc
 *.egg-info
-test/
-test_reference/
-docker-*/
-test*.sh
+.env
+test_artifacts
+test_artifacts_reference
+test_artifacts_verification
