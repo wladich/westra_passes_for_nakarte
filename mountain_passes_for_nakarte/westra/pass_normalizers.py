@@ -1,5 +1,6 @@
 # coding: utf-8
 import re
+from enum import StrEnum
 from html import unescape
 from typing import Literal, NotRequired, TypedDict
 
@@ -18,6 +19,7 @@ class NakartePass(TypedDict):
     elevation: NotRequired[str]
     grade: NotRequired[str]
     grade_eng: str
+    grade_season: NotRequired[Literal["winter"]]
     slopes: NotRequired[str]
     connects: NotRequired[str]
     is_summit: NotRequired[Literal[1]]
@@ -73,88 +75,111 @@ def sanitize_text(s: str) -> str | None:
     return s
 
 
+class Grade(StrEnum):
+    # pylint: disable=invalid-name
+    _1a = "1a"
+    _1b = "1b"
+    _2a = "2a"
+    _2b = "2b"
+    _3a = "3a"
+    _3b = "3b"
+    unknown = "unknown"
+    nograde = "nograde"
+
+
 normalized_grades = {
-    "": "unknown",
-    "--": "unknown",
-    "1885": "unknown",
-    "1a": "1a",
-    "1a*": "1a",
-    "1a-1б": "1a",
-    "1a-2а": "1a",
-    "1а": "1a",
-    "1а*": "1a",
-    "1а*-1б": "1a",
-    "1а-1б": "1a",
-    "1а-2а": "1a",
-    "1а?": "1a",
-    "1б": "1b",
-    "1б*": "1b",
-    "1б*(?)": "1b",
-    "1б-1а": "1a",
-    "1б-1б*": "1b",
-    "1б-2а": "1b",
-    "1б-2б": "1b",
-    "1б?": "1b",
-    "1бальп": "1b",
-    "1блд": "1b",
-    "1бтур": "1b",
-    "1б-3а": "1b",
-    "2a": "2a",
-    "2a*": "2a",
-    "2a-2б": "2a",
-    "2а": "2a",
-    "2а*": "2a",
-    "2а-": "2a",
-    "2а-2б": "2a",
-    "2а-3а": "2a",
-    "2а?": "2a",
-    "2аальп": "2a",
-    "2б": "2b",
-    "2б(2": "2b",
-    "2б*": "2b",
-    "2б*(3а)": "2b",
-    "2б*-3а": "2b",
-    "2б-3а": "2b",
-    "2б?": "2b",
-    "3a": "3a",
-    "3a*": "3a",
-    "3aальп": "3a",
-    "3а": "3a",
-    "3а(": "3a",
-    "3а*": "3a",
-    "3а*-3б": "3a",
-    "3а,": "3a",
-    "3а-3": "3a",
-    "3а-3б": "3a",
-    "3аальп": "3a",
-    "3б": "3b",
-    "3б*": "3b",
-    "3б-3б*": "3b",
-    "3бальп": "3b",
-    "?": "unknown",
-    "~1а": "1a",
-    "~2a": "2a",
-    "~2а": "2a",
-    "н.к": "nograde",
-    "н.к.": "nograde",
-    "н/к": "nograde",
-    "н/к*": "nograde",
-    "н/к-1а": "nograde",
-    "н/к-1а?": "nograde",
-    "н/к-1б": "nograde",
-    "н/к?": "nograde",
-    "нк": "nograde",
-    "ок.1а": "1a",
-    "ок.1б": "1b",
-    "ок.2а": "2a",
-    "ок.2б": "2b",
-    "ок.3а": "3a",
-    "ок.3б": "3b",
-    "ос": "unknown",
+    # pylint: disable=protected-access
+    "": Grade.unknown,
+    "--": Grade.unknown,
+    "1885": Grade.unknown,
+    "1a": Grade._1a,
+    "1a*": Grade._1a,
+    "1a-1б": Grade._1a,
+    "1a-2а": Grade._1a,
+    "1а": Grade._1a,
+    "1а*": Grade._1a,
+    "1а*-1б": Grade._1a,
+    "1а-1б": Grade._1a,
+    "1а-2а": Grade._1a,
+    "1а?": Grade._1a,
+    "1б": Grade._1b,
+    "1б*": Grade._1b,
+    "1б*(?)": Grade._1b,
+    "1б-1а": Grade._1a,
+    "1б-1б*": Grade._1b,
+    "1б-2а": Grade._1b,
+    "1б-2б": Grade._1b,
+    "1б?": Grade._1b,
+    "1бальп": Grade._1b,
+    "1блд": Grade._1b,
+    "1бтур": Grade._1b,
+    "1б-3а": Grade._1b,
+    "2a": Grade._2a,
+    "2a*": Grade._2a,
+    "2a-2б": Grade._2a,
+    "2а": Grade._2a,
+    "2а*": Grade._2a,
+    "2а-": Grade._2a,
+    "2а-2б": Grade._2a,
+    "2а-3а": Grade._2a,
+    "2а?": Grade._2a,
+    "2аальп": Grade._2a,
+    "2б": Grade._2b,
+    "2б(2": Grade._2b,
+    "2б*": Grade._2b,
+    "2б*(3а)": Grade._2b,
+    "2б*-3а": Grade._2b,
+    "2б-3а": Grade._2b,
+    "2б?": Grade._2b,
+    "3a": Grade._3a,
+    "3a*": Grade._3a,
+    "3aальп": Grade._3a,
+    "3а": Grade._3a,
+    "3а(": Grade._3a,
+    "3а*": Grade._3a,
+    "3а*-3б": Grade._3a,
+    "3а,": Grade._3a,
+    "3а-3": Grade._3a,
+    "3а-3б": Grade._3a,
+    "3аальп": Grade._3a,
+    "3б": Grade._3b,
+    "3б*": Grade._3b,
+    "3б-3б*": Grade._3b,
+    "3бальп": Grade._3b,
+    "?": Grade.unknown,
+    "~1а": Grade._1a,
+    "~2a": Grade._2a,
+    "~2а": Grade._2a,
+    "н.к": Grade.nograde,
+    "н.к.": Grade.nograde,
+    "н/к": Grade.nograde,
+    "н/к*": Grade.nograde,
+    "н/к-1а": Grade.nograde,
+    "н/к-1а?": Grade.nograde,
+    "н/к-1б": Grade.nograde,
+    "н/к?": Grade.nograde,
+    "нк": Grade.nograde,
+    "ок.1а": Grade._1a,
+    "ок.1б": Grade._1b,
+    "ок.2а": Grade._2a,
+    "ок.2б": Grade._2b,
+    "ок.3а": Grade._3a,
+    "ок.3б": Grade._3b,
+    "ос": Grade.unknown,
+    "1бзальп": Grade._1b,
+    "1б*альп": Grade._1b,
+    "1б*!": Grade._1b,
+    "1б!": Grade._1b,
+    "1б*?": Grade._1b,
+    "2а!": Grade._2a,
+    "2а*!": Grade._2a,
+    "1а*!": Grade._1a,
+    "1атур": Grade._1a,
+    "н/к*!": Grade.nograde,
 }
 
 
-def norm_grade(grade: str) -> str:
+def norm_grade(grade: str) -> Grade:
     grade = grade.replace(" ", "").replace("\t", "").replace("\n", "").lower()
     if grade not in normalized_grades:
         raise ValueError(f"Unknown grade {grade!r}")
@@ -238,9 +263,21 @@ def westra_pass_to_nakarte(
         return None
 
     try:
+        is_grade_winter = False
+        grade_eng = norm_grade(westra_pass["cat_sum"])
+        grade = sanitize_text(westra_pass["cat_sum"])
+        slopes = sanitize_text(westra_pass["type_sum"])
+        if grade_eng == Grade.unknown:
+            if (
+                winter_grade_eng := norm_grade(westra_pass["cat_win"])
+            ) != Grade.unknown:
+                is_grade_winter = True
+                grade_eng = winter_grade_eng
+                grade = sanitize_text(westra_pass["cat_win"])
+                slopes = sanitize_text(westra_pass["type_win"])
         nakarte_pass: NakartePass = {
             "id": check_is_int(westra_pass["id"]),
-            "grade_eng": norm_grade(westra_pass["cat_sum"]),
+            "grade_eng": grade_eng,
             "latlon": get_latlon(westra_pass),
             "regions": [region["id"] for region in regions_path if region["id"] != "0"],
         }
@@ -250,9 +287,11 @@ def westra_pass_to_nakarte(
             nakarte_pass["altnames"] = altnames
         if (elevation := westra_pass["height"]) not in ["", "0"]:
             nakarte_pass["elevation"] = check_is_int(elevation)
-        if grade := sanitize_text(westra_pass["cat_sum"]):
+        if grade:
             nakarte_pass["grade"] = grade
-        if slopes := sanitize_text(westra_pass["type_sum"]):
+        if is_grade_winter:
+            nakarte_pass["grade_season"] = "winter"
+        if slopes:
             nakarte_pass["slopes"] = slopes
         if connects := sanitize_text(westra_pass["connect"]):
             nakarte_pass["connects"] = connects

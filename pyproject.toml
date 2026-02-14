@@ -1,6 +1,6 @@
 [project]
 name = "mountain_passes_for_nakarte"
-version = "0.0.5"
+version = "0.0.6"
 requires-python = ">=3.11,<3.14"
 dependencies = [
     "numpy==2.3.5",
