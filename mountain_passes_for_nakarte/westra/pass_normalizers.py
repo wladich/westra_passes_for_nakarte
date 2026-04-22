@@ -259,7 +259,7 @@ def westra_pass_to_nakarte(
         return None
     if westra_pass["id"] == "12620":  # Test pass
         return None
-    if westra_pass["height"] == "-150279":  # Test passes
+    if westra_pass.get("height") == "-150279":  # Test passes
         return None
 
     try:
@@ -285,7 +285,8 @@ def westra_pass_to_nakarte(
             nakarte_pass["name"] = pass_name
         if altnames := sanitize_text(westra_pass["other_titles"]):
             nakarte_pass["altnames"] = altnames
-        if (elevation := westra_pass["height"]) not in ["", "0"]:
+        elevation = westra_pass.get("height")
+        if elevation is not None and elevation not in ["", "0"]:
             nakarte_pass["elevation"] = check_is_int(elevation)
         if grade:
             nakarte_pass["grade"] = grade

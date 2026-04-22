@@ -1,6 +1,6 @@
 import json
 import urllib.request
-from typing import Iterator, TextIO, TypedDict, cast
+from typing import Iterator, NotRequired, TextIO, TypedDict, cast
 
 
 class WestraComment(TypedDict):
@@ -26,7 +26,7 @@ class WestraPass(TypedDict):
     title: str
     other_titles: str
     is_confirmed: str
-    height: str
+    height: NotRequired[str]
     cat_sum: str
     cat_win: str
     cat_spr: str
