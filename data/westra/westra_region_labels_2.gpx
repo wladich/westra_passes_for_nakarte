@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" creator="http://nakarte.me" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1">
+	<metadata>
+		<time>2026-06-12T15:31:53.535Z</time>
+	</metadata>
 	<wpt lat="49.826863" lon="86.433247">
 		<name>Катунский хребет</name>
 	</wpt>
@@ -188,5 +191,11 @@
 	</wpt>
 	<wpt lat="61.590720" lon="156.159668">
 		<name>Колымское нагорье</name>
+	</wpt>
+	<wpt lat="49.820265" lon="85.160522">
+		<name>Листвяга</name>
+	</wpt>
+	<wpt lat="50.584981" lon="89.763794">
+		<name>Шапшальский хребет</name>
 	</wpt>
 </gpx>
