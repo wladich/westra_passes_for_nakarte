@@ -109,6 +109,7 @@ normalized_grades = {
     "1б-1б*": Grade._1b,
     "1б-2а": Grade._1b,
     "1б-2б": Grade._1b,
+    "1б*-2а": Grade._1b,
     "1б?": Grade._1b,
     "1бальп": Grade._1b,
     "1блд": Grade._1b,
